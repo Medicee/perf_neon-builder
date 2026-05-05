@@ -72,11 +72,17 @@ case "$DEVICE_IMPORT" in
                 "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/ae58bbd8f7af4c3c290e63ddcd4112559c5fc240.patch"
         fi
         # DTBO patches for 4.14
-        if [[ "$DEVICE_IMPORT" != "sweet-pixelos" ]] || [[ "$DEVICE_IMPORT" != "sweet-miui" ]];; then
+        if [[ "$DEVICE_IMPORT" != "sweet-pixelos" ]] || [[ "$DEVICE_IMPORT" != "sweet-miui" ]]; then
             echo "-- Applying DTBO & LTO patches..."
             apply_patches "${DTBO_PATCHES[@]}" "$LTO_PATCH"
             echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
+        fi
+        # Specific Patches for sweet-miui
+        if [[ "$DEVICE_IMPORT" == "sweet-miui" ]]; then
+            echo "-- Applying sweet-miui specific patches..."
+            sed -i 's/^CONFIG_CC_STACKPROTECTOR_STRONG=y/# CONFIG_CC_STACKPROTECTOR_STRONG is not set/' $MAIN_DEFCONFIG
+            sed -i 's/^# CONFIG_CC_STACKPROTECTOR_NONE is not set/CONFIG_CC_STACKPROTECTOR_NONE=y/' $MAIN_DEFCONFIG
         fi
         # Shared patches for 4.14
         echo "-- Applying shared patches (KPATCH)..."
