@@ -30,6 +30,7 @@ case "$KERNELSU_SELECTOR" in
         echo "CONFIG_HAVE_SYSCALL_TRACEPOINTS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_THREAD_INFO_IN_TASK=y" >> $MAIN_DEFCONFIG
         # Apply backport and hooks
+        echo "-- Applying KernelSU hooks..."
         curl -LSs "$BACKPORT_GENERAL_PATCH" | bash &> /dev/null
         curl -LSs "$KSU_HOOK" | bash &> /dev/null
         if [[ "$KERNELSU_SELECTOR" == "zako-susfs" ]]; then
@@ -46,9 +47,15 @@ case "$KERNELSU_SELECTOR" in
             echo "CONFIG_KSU_SUSFS_SUS_MAP=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> $MAIN_DEFCONFIG
         fi
+        # Export policy_rwlock if exist
+        POLICY_RWLOCK_CHECK=$(grep -q "static DEFINE_RWLOCK(policy_rwlock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        if [[ "$POLICY_RWLOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting policy_rwlock..."
+            sed -i 's/^static \(DEFINE_RWLOCK(policy_rwlock);\)/\1/' security/selinux/ss/services.c
+        fi
         # Kernel 4.4 specific patches
         if [[ "$KERNEL_VERSION" == "4.4" ]]; then
-            echo "-- Applying KernelSU 4.4 patches..."
+            echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
         fi
         ;;
@@ -71,6 +78,7 @@ case "$KERNELSU_SELECTOR" in
         echo "CONFIG_HAVE_SYSCALL_TRACEPOINTS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_THREAD_INFO_IN_TASK=y" >> $MAIN_DEFCONFIG
         # Apply backport and hooks
+        echo "-- Applying KernelSU hooks..."
         curl -LSs "$BACKPORT_GENERAL_PATCH" | bash &> /dev/null
         curl -LSs "$KSU_HOOK" | bash &> /dev/null
         if [[ "$KERNELSU_SELECTOR" == "ksunext-susfs" ]]; then
@@ -87,14 +95,20 @@ case "$KERNELSU_SELECTOR" in
             echo "CONFIG_KSU_SUSFS_SUS_MAP=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> $MAIN_DEFCONFIG
         fi
+        # Export policy_rwlock if exist
+        POLICY_RWLOCK_CHECK=$(grep -q "static DEFINE_RWLOCK(policy_rwlock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        if [[ "$POLICY_RWLOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting policy_rwlock..."
+            sed -i 's/^static \(DEFINE_RWLOCK(policy_rwlock);\)/\1/' security/selinux/ss/services.c
+        fi
         # Kernel 4.4 specific patches
         if [[ "$KERNEL_VERSION" == "4.4" ]]; then
-            echo "-- Applying KernelSU 4.4 patches..."
+            echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
         fi
         ;;
     none|"")
-        echo "No KernelSU to set up."
+        echo "-- KernelSU is not selected."
         ;;
     *)
         echo "- Invalid KERNELSU_SELECTOR: $KERNELSU_SELECTOR. Valid options: zako, zako-susfs, none."
@@ -125,7 +139,7 @@ case "$BBG_SELECTOR" in
         fi
         ;;
     none|"")
-        echo "No Baseband Guard to set up."
+        echo "-- Baseband Guard is not selected."
         ;;
     *)
         echo "- Invalid BBG_SELECTOR: $BBG_SELECTOR. Valid options: bbg, none."
