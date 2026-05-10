@@ -172,7 +172,7 @@ for tc in "${TC_URLS_REAL[@]}"; do
             asset_url=$(curl -s "$url" | grep -oP "https://github.com/[^\"]+$search[^\"]+\.xz" | head -n 1)
             if [ -n "$asset_url" ]; then
                 mkdir -p "$dir"
-                wget -qO- "$asset_url" | tar -xJ -C "$dir" &> /dev/null || { echo "-- Fatal: Failed to download and extract $dir!"; exit 1; }
+                wget -qO- "$asset_url" | tar -xJ -C "$dir" || { echo "-- Fatal: Failed to download and extract $dir!"; exit 1; }
             else
                 echo "-- Error: Could not find matching asset for $dir at $url"
             fi
