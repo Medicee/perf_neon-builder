@@ -156,7 +156,7 @@ jobs:
           if [[ "${{ matrix.build-type }}" == "sweet-pixelos" ]]; then
             export ZIPNAME="VantomKernel-${{ matrix.build-type }}-playground-${{ steps.ts.outputs.DATE }}.zip"
           elif [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            export ZIPNAME="Spiteful-${{ matrix.build-type }}-playground-${{ steps.ts.outputs.DATE }}.zip"
+            export ZIPNAME="Spiteful-old-${{ matrix.build-type }}-playground-${{ steps.ts.outputs.DATE }}.zip"
           elif [[ "${{ matrix.build-type }}" == "mi89x7-community" ]]; then
             export ZIPNAME="Mi8937v2-${{ matrix.build-type }}-playground-${{ steps.ts.outputs.DATE }}.zip"
           fi
