@@ -92,6 +92,7 @@ case "$DEVICE_IMPORT" in
             revert_commit "https://github.com/tbyool/android_kernel_xiaomi_sm6150/commit/e2b3c607add77513068e3d917efb7f4786004a61.patch"
             revert_commit "https://github.com/tbyool/android_kernel_xiaomi_sm6150/commit/f9d16e866c476d902120531bb9c710eb9e7d4e6c.patch"
             revert_commit "https://github.com/tbyool/android_kernel_xiaomi_sm6150/commit/3b5ce8d2647ca26976f878220ea33f9d78f8c109.patch"
+            revert_commit "https://github.com/tbyool/android_kernel_xiaomi_sm6150/commit/b54e4b3a90525a5e5ce514672b798c67a4625cde.patch"
             echo "-- Enabling LTO..."
             echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
