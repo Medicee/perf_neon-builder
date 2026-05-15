@@ -52,6 +52,14 @@ case "$KERNELSU_SELECTOR" in
             echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
         fi
+        # Kernel 4.14.357 edge case, might remove later
+        if [[ "$KERNEL_VERSION" == "4.14" ]]; then
+            SUBVERSION_357_CHECK=$(grep -q "SUBLEVEL = 357" "${PWD}/Makefile" && echo "true")
+            if [[ "$SUBVERSION_357_CHECK" == "true" ]]; then
+                echo "-- Forcing ksu_for_each_lsm_entry to use hlist_for_each_entry..."
+                sed -i 's/define ksu_for_each_lsm_entry list_for_each_entry/define ksu_for_each_lsm_entry hlist_for_each_entry/g' drivers/kernelsu/feature/selinux_hide.c
+            fi
+        fi
         ;;
     ksunext|ksunext-susfs)
         # KernelSU Settings
