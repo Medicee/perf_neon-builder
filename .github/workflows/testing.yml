@@ -245,6 +245,7 @@ jobs:
               sed -i 's/device.name1=sweet/device.name1=violet/' AnyKernel3/anykernel.sh
               sed -i 's/device.name2=sweetin/device.name2=violetin/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/violet (sm6150)/g' AnyKernel3/banner
+            fi
           elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
             cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/Image.gz AnyKernel3/
             cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/dtb.img AnyKernel3/
