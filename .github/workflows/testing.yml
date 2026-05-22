@@ -14,7 +14,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet, ginkgo, munch, mi89x7, sweet-pixelos, sweet-miui, mi89x7-community, a9y18qlte]
+        build-type: [sweet-clang]
         ksu-type: [zako, zako-susfs]
         bbg-type: [bbg, none]
         exclude:
@@ -76,7 +76,7 @@ jobs:
 
       - name: Preparing kernel sources
         run: |
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
+          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" || "${{ matrix.build-type }}" == "sweet-clang" ]]; then
             if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
               rm -rf android_kernel_xiaomi_sm6150
             fi
@@ -185,7 +185,7 @@ jobs:
       - name: Compile the kernel
         run: |
           echo "Starting to compile..."
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
+          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" || "${{ matrix.build-type }}" == "sweet-clang" ]]; then
             cd android_kernel_xiaomi_sm6150/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }}
             cd ..
@@ -224,12 +224,12 @@ jobs:
             rm -rf AnyKernel3
           fi
           git clone https://github.com/riarumoda/AnyKernel3 AnyKernel3 --depth=1
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
+          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" || "${{ matrix.build-type }}" == "sweet-clang" ]]; then
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/Image.gz AnyKernel3/
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtb.img AnyKernel3/
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtbo.img AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
-            if [[ "${{ matrix.build-type }}" == "sweet" ]]; then
+            if [[ "${{ matrix.build-type }}" == "sweet" ]] || [[ "${{ matrix.build-type }}" == "sweet-clang" ]]; then
               sed -i 's/device.name1=sweet/device.name1=sweet/' AnyKernel3/anykernel.sh
               sed -i 's/device.name2=sweetin/device.name2=sweetin/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/sweet (sm6150)/g' AnyKernel3/banner
@@ -245,7 +245,6 @@ jobs:
               sed -i 's/device.name1=sweet/device.name1=violet/' AnyKernel3/anykernel.sh
               sed -i 's/device.name2=sweetin/device.name2=violetin/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/violet (sm6150)/g' AnyKernel3/banner
-            fi
           elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
             cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/Image.gz AnyKernel3/
             cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/dtb.img AnyKernel3/
