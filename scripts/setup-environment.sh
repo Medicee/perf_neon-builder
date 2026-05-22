@@ -34,8 +34,11 @@ export TC_ALT_MODE=1
 # Device Settings - v3.5
 case "$DEVICE_IMPORT" in
     # LineageOS
-    sweet|davinci|tucana|violet)
+    sweet|davinci|tucana|violet|sweet-clang)
         export DEVICE_DEFCONFIG="vendor/${DEVICE_IMPORT}.config"
+        if [ "$DEVICE_IMPORT" = "sweet-clang" ]; then
+            export TC_ALT_MODE=0
+        fi
         ;;
     ginkgo|laurel_sprout)
         export MAIN_DEFCONFIG="arch/arm64/configs/vendor/trinket-perf_defconfig"
