@@ -113,6 +113,7 @@ if [[ "$TC_ALT_MODE" == "0" ]]; then
         ARCH=arm64 LLVM=1 LLVM_IAS=1 CC=clang LD=ld.lld AR=llvm-ar AS=llvm-as
         NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
+        KCFLAGS="-Wno-implicit-enum-enum-cast"
     )
 elif [[ "$TC_ALT_MODE" == "1" ]]; then
     export TC_URLS_REAL=("${TC_URLS_LEGACY[@]}")
