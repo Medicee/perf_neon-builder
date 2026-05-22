@@ -165,16 +165,12 @@ for tc in "${TC_URLS_REAL[@]}"; do
                 echo "-- Fatal: Could not find a valid download link for $dir!"
                 exit 1
             fi
-            if wget -q --spider "$asset_url"; then
-                mkdir -p "$dir"
-                if [[ "$compress" == "gz" ]]; then
-                    wget -qO- "$asset_url" | tar -xzf - -C "$dir"
-                else
-                    wget -qO- "$asset_url" | tar -xJf - -C "$dir"
-                fi
+            echo "-- URL: $asset_url"
+            mkdir -p "$dir"
+            if [[ "$compress" == "gz" ]]; then
+                curl -sL "$asset_url" | tar -xzf - -C "$dir" || { echo "-- Fatal: Failed to extract $dir!"; exit 1; }
             else
-                echo "-- Fatal: Link is dead or unreachable: $asset_url"
-                exit 1
+                curl -sL "$asset_url" | tar -xJf - -C "$dir" || { echo "-- Fatal: Failed to extract $dir!"; exit 1; }
             fi
         else
             echo "-- Using local $dir"
