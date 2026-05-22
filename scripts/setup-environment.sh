@@ -170,7 +170,7 @@ for tc in "${TC_URLS_REAL[@]}"; do
             if [[ "$compress" == "gz" ]]; then
                 curl -sL "$asset_url" | tar -xzf - -C "$dir" || { echo "-- Fatal: Failed to extract $dir!"; exit 1; }
             else
-                curl -sL "$asset_url" | tar -xJf - -C "$dir" || { echo "-- Fatal: Failed to extract $dir!"; exit 1; }
+                curl -sL "$asset_url" | tar -xf - -C "$dir" || { echo "-- Fatal: Failed to extract $dir!"; exit 1; }
             fi
         else
             echo "-- Using local $dir"
