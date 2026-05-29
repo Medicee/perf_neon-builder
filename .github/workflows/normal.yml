@@ -19,6 +19,7 @@ jobs:
         build-type: [sweet, davinci, tucana, violet, ginkgo, laurel_sprout, alioth, lmi, munch, mi89x7]
         ksu-type: [zako, zako-susfs, none]
         bbg-type: [bbg]
+        nomount-type: [nomount]
 
     steps:
       - uses: actions/checkout@v6
@@ -91,19 +92,19 @@ jobs:
           echo "Starting to compile..."
           if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
             cd android_kernel_xiaomi_sm6150/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
             cd android_kernel_xiaomi_sm6125/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "alioth" || "${{ matrix.build-type }}" == "lmi" || "${{ matrix.build-type }}" == "munch" ]]; then
             cd android_kernel_xiaomi_sm8250/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "mi89x7" ]]; then
             cd android_kernel_xiaomi_msm8937/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }}
             cd ..
           else
             echo "Invalid build type: ${{ matrix.build-type }}"
@@ -240,9 +241,9 @@ jobs:
             > - ReSukiSU latest manager can be found in [here](https://resukisu.github.io/guide/install.html#Get-manager).    
                
             > [!IMPORTANT]
-            > - Normal build contains ReSukiSU + Baseband Guard (Recommended).   
-            > - SUSFS build contains ReSukiSU + SUSFS + Baseband Guard.   
-            > - No-KSU build does not contain ReSukiSU. But it does contain Baseband Guard.   
+            > - Normal build contains ReSukiSU + Baseband Guard + NoMount (Recommended).   
+            > - SUSFS build contains ReSukiSU + SUSFS + Baseband Guard + NoMount.   
+            > - No-KSU build does not contain ReSukiSU. But it does contain Baseband Guard and NoMount.   
 
             > [!CAUTION]   
             > - Always backup your boot & dtbo image first before proceeding!   
