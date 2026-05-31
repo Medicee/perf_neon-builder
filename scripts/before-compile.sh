@@ -24,15 +24,9 @@ for fragment in $COMMON_DEFCONFIG $DEVICE_DEFCONFIG $FEATURE_DEFCONFIG; do
     fi
 done
 # Set kernel name
+echo "-- Appending kernel name..."
 echo "CONFIG_LOCALVERSION=\"$KERNEL_NAME\"" >> out/.config
 echo "CONFIG_LOCALVERSION_AUTO=n" >> out/.config
 # Config generation
 yes "" | "${MAKE_CMD[@]}" olddefconfig &> /dev/null
 yes "" | "${MAKE_CMD[@]}" syncconfig &> /dev/null
-# git cleanup
-echo "-- Cleaning up git before compiling..."
-git config user.email "$GIT_EMAIL" &> /dev/null
-git config user.name "$GIT_NAME" &> /dev/null
-git config set advice.addEmbeddedRepo true &> /dev/null
-git add . &> /dev/null
-git commit -m "cleanup: applied patches before build" &> /dev/null
