@@ -34,11 +34,11 @@ export TC_ALT_MODE=1
 # Device Settings - v3.5
 case "$DEVICE_IMPORT" in
     # LineageOS
-    sweet|davinci|tucana|violet|sweet-clang)
+    sweet|davinci|tucana|violet|sweet-droidspaces)
         export DEVICE_DEFCONFIG="vendor/${DEVICE_IMPORT}.config"
-        if [ "$DEVICE_IMPORT" = "sweet-clang" ]; then
+        if [ "$DEVICE_IMPORT" = "sweet-droidspaces" ]; then
             export DEVICE_DEFCONFIG="vendor/sweet.config"
-            export TC_ALT_MODE=0
+            export KERNEL_NAME="-perf-droidspaces-neon"
         fi
         ;;
     ginkgo|laurel_sprout)
