@@ -16,7 +16,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet-droidspaces, mi89x7-droidspaces]
+        build-type: [sweet-droidspaces, ginkgo-droidspaces, mi89x7-droidspaces]
         ksu-type: [zako, zako-susfs, none]
         bbg-type: [bbg]
         nomount-type: [nomount]
@@ -53,6 +53,16 @@ jobs:
             cp build.sh android_kernel_xiaomi_sm6150/
             cp -r scripts android_kernel_xiaomi_sm6150/
             chmod +x ./android_kernel_xiaomi_sm6150/build.sh
+          elif [[ "${{ matrix.build-type }}" == "ginkgo-droidspaces" ]]; then
+            if [ -d "$PWD/android_kernel_xiaomi_sm6125" ]; then
+              rm -rf android_kernel_xiaomi_sm6125
+            fi
+            echo "Cloning kernel sources..."
+            git clone https://github.com/LineageOS/android_kernel_xiaomi_sm6125.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm6125
+            echo "Copying buildscript..."
+            cp build.sh android_kernel_xiaomi_sm6125/
+            cp -r scripts android_kernel_xiaomi_sm6125/
+            chmod +x ./android_kernel_xiaomi_sm6125/build.sh
           elif [[ "${{ matrix.build-type }}" == "mi89x7-droidspaces" ]]; then
             if [ -d "$PWD/android_kernel_xiaomi_msm8937" ]; then
               rm -rf android_kernel_xiaomi_msm8937
@@ -95,6 +105,10 @@ jobs:
             cd android_kernel_xiaomi_sm6150/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
             cd ..
+          elif [[ "${{ matrix.build-type }}" == "ginkgo-droidspaces" ]]; then
+            cd android_kernel_xiaomi_sm6125/
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            cd ..
           elif [[ "${{ matrix.build-type }}" == "mi89x7-droidspaces" ]]; then
             cd android_kernel_xiaomi_msm8937/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
@@ -119,6 +133,16 @@ jobs:
               sed -i 's/device.name1=sweet/device.name1=sweet/' AnyKernel3/anykernel.sh
               sed -i 's/device.name2=sweetin/device.name2=sweetin/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/sweet (sm6150)/g' AnyKernel3/banner
+            fi
+          elif [[ "${{ matrix.build-type }}" == "ginkgo-droidspaces" ]]; then
+            cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/dtb.img AnyKernel3/
+            cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/dtbo.img AnyKernel3/
+            sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
+            if [[ "${{ matrix.build-type }}" == "ginkgo-droidspaces" ]]; then
+              sed -i 's/device.name1=sweet/device.name1=ginkgo/' AnyKernel3/anykernel.sh
+              sed -i 's/device.name2=sweetin/device.name2=willow/' AnyKernel3/anykernel.sh
+              sed -i 's/sweet (sm6150)/ginkgo (sm6125)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "mi89x7-droidspaces" ]]; then
             cp android_kernel_xiaomi_msm8937/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
