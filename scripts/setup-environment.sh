@@ -55,7 +55,7 @@ case "$DEVICE_IMPORT" in
         export KERNEL_VERSION="4.19"
         export KBUILD_BUILD_USER=kebeletxd-compile
         ;;
-    mi89x7|mi89x7-community)
+    mi89x7|mi89x7-community|mi89x7-droidspaces)
         export MAIN_DEFCONFIG="arch/arm64/configs/vendor/msm8937-perf_defconfig"
         export ACTUAL_MAIN_DEFCONFIG="vendor/msm8937-perf_defconfig"
         export COMMON_DEFCONFIG="vendor/msm8937-legacy.config vendor/common.config"
@@ -65,6 +65,9 @@ case "$DEVICE_IMPORT" in
         elif [ "$DEVICE_IMPORT" = "mi89x7-community" ]; then
             export FEATURE_DEFCONFIG="vendor/feature/android-12.config vendor/feature/erofs.config vendor/feature/exfat.config vendor/feature/kprobes.config vendor/feature/lmkd.config vendor/feature/ntfs.config vendor/feature/wireguard.config"
             export KERNEL_NAME="-Mi8937v2-neon"
+        elif [ "$DEVICE_IMPORT" = "mi89x7-droidspaces" ]; then
+            export FEATURE_DEFCONFIG="vendor/feature/android-12.config vendor/feature/erofs.config vendor/feature/exfat.config vendor/feature/kprobes.config vendor/feature/lmkd.config vendor/feature/ntfs.config vendor/feature/wireguard.config"
+            export KERNEL_NAME="-Mi8937v2-droidspaces-neon"
         fi
         export KERNEL_VERSION="4.19"
         ;;

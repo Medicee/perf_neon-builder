@@ -107,7 +107,7 @@ case "$DEVICE_IMPORT" in
         echo "CONFIG_EROFS_FS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SECURITY_SELINUX_DEVELOP=y" >> $MAIN_DEFCONFIG
         ;;
-    alioth|lmi|munch|mi89x7|mi89x7-community)
+    alioth|lmi|munch|mi89x7|mi89x7-community|mi89x7-droidspaces)
         # Device specific for 4.19
         if [[ "$DEVICE_IMPORT" == "alioth" ]] || [[ "$DEVICE_IMPORT" == "lmi" ]] || [[ "$DEVICE_IMPORT" == "munch" ]]; then
             # Shared patches for 4.14
