@@ -16,7 +16,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet-pixelos, sweet-miui, mi89x7-community]
+        build-type: [sweet-playground, mi89x7-playground]
         ksu-type: [zako, zako-susfs, none]
         bbg-type: [bbg]
         nomount-type: [nomount]
@@ -43,7 +43,7 @@ jobs:
 
       - name: Preparing kernel sources
         run: |
-          if [[ "${{ matrix.build-type }}" == "mi89x7-community" ]]; then
+          if [[ "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             if [ -d "$PWD/android_kernel_xiaomi_msm8937" ]; then
               rm -rf android_kernel_xiaomi_msm8937
             fi
@@ -73,22 +73,12 @@ jobs:
             cp build.sh android_kernel_xiaomi_msm8937/
             cp -r scripts android_kernel_xiaomi_msm8937/
             chmod +x ./android_kernel_xiaomi_msm8937/build.sh
-          elif [[ "${{ matrix.build-type }}" == "sweet-pixelos" ]]; then
+          elif [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
             if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
               rm -rf android_kernel_xiaomi_sm6150
             fi
             echo "Cloning kernel sources..."
             git clone https://github.com/PixelOS-Devices/android_kernel_xiaomi_sm6150.git -b "sixteen-qpr2" --depth=1 android_kernel_xiaomi_sm6150
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6150/
-            cp -r scripts android_kernel_xiaomi_sm6150/
-            chmod +x ./android_kernel_xiaomi_sm6150/build.sh
-          elif [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
-              rm -rf android_kernel_xiaomi_sm6150
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/tbyool/android_kernel_xiaomi_sm6150.git -b "MIUI-buildout" --depth=1 android_kernel_xiaomi_sm6150
             echo "Copying buildscript..."
             cp build.sh android_kernel_xiaomi_sm6150/
             cp -r scripts android_kernel_xiaomi_sm6150/
@@ -101,11 +91,11 @@ jobs:
       - name: Compile the kernel
         run: |
           echo "Starting to compile..."
-          if [[ "${{ matrix.build-type }}" == "mi89x7-community" ]]; then
+          if [[ "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             cd android_kernel_xiaomi_msm8937/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
             cd ..
-          elif [[ "${{ matrix.build-type }}" == "sweet-pixelos" || "${{ matrix.build-type }}" == "sweet-miui" ]]; then
+          elif [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
             cd android_kernel_xiaomi_sm6150/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
             cd ..
@@ -120,29 +110,19 @@ jobs:
             rm -rf AnyKernel3
           fi
           git clone https://github.com/riarumoda/AnyKernel3 AnyKernel3 --depth=1
-          if [[ "${{ matrix.build-type }}" == "mi89x7-community" ]]; then
+          if [[ "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             cp android_kernel_xiaomi_msm8937/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
             sed -i 's/device.name1=sweet/device.name1=mi8937/' AnyKernel3/anykernel.sh
             sed -i 's/device.name2=sweetin/device.name2=mi8917/' AnyKernel3/anykernel.sh
             sed -i '/device.name2=mi8917/a device.name3=santoni\ndevice.name4=prada\ndevice.name5=rolex\ndevice.name6=ugglite\ndevice.name7=riva\ndevice.name8=ugg' AnyKernel3/anykernel.sh
             sed -i 's/sweet (sm6150)/mi8937 and mi8917 (msm8937)/g' AnyKernel3/banner
-          elif [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/Image.gz AnyKernel3/
-            cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtb.img AnyKernel3/
-            cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtbo.img AnyKernel3/
-            sed -i 's/supported.versions=11-16/supported.versions=11-15/' AnyKernel3/anykernel.sh
-            if [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-              sed -i 's/device.name1=sweet/device.name1=sweet/' AnyKernel3/anykernel.sh
-              sed -i 's/device.name2=sweetin/device.name2=sweetin/' AnyKernel3/anykernel.sh
-              sed -i 's/sweet (sm6150)/sweet (sm6150)/g' AnyKernel3/banner
-            fi
-          elif [[ "${{ matrix.build-type }}" == "sweet-pixelos" ]]; then
+          elif [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/Image.gz AnyKernel3/
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtb.img AnyKernel3/
             cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/dtbo.img AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=12-16/' AnyKernel3/anykernel.sh
-            if [[ "${{ matrix.build-type }}" == "sweet-pixelos" ]]; then
+            if [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
               sed -i 's/device.name1=sweet/device.name1=sweet/' AnyKernel3/anykernel.sh
               sed -i 's/device.name2=sweetin/device.name2=sweetin/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/sweet (sm6150)/g' AnyKernel3/banner
@@ -162,17 +142,15 @@ jobs:
           elif [[ "${{ matrix.ksu-type }}" == "none" ]]; then
             export KSUTYPE="noksu"
           fi
-          if [[ "${{ matrix.build-type }}" == "sweet-pixelos" ]]; then
+          if [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
             export KERNELNAME="VantomKernel"
-          elif [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            export KERNELNAME="Spiteful-old"
-          elif [[ "${{ matrix.build-type }}" == "mi89x7-community" ]]; then
+          elif [[ "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             export KERNELNAME="Mi8937v2"
           else
             echo "Invalid build type: ${{ matrix.build-type }}"
             exit 1
           fi
-          export ZIPNAME="$KERNELNAME-${{ matrix.build-type }}-playground-$KSUTYPE-${{ steps.ts.outputs.DATE }}.zip"
+          export ZIPNAME="$KERNELNAME-${{ matrix.build-type }}-$KSUTYPE-${{ steps.ts.outputs.DATE }}.zip"
           cd AnyKernel3
           zip -rq9 "../$ZIPNAME" ./*
           cd ..
@@ -218,8 +196,7 @@ jobs:
             > [!IMPORTANT]   
             > - This kernel only be used for playtesting purposes. Do NOT report bugs to the original author.   
             > - This kernel already includes ReSukiSU. Also SUSFS, NoMount and Baseband Guard too.   
-            > - The Kernels that built with LTO enabled are sweet-miui and mi89x7-community.   
-            > - This kernel does not have droidspaces support.   
+            > - The Kernels that built with LTO enabled are mi89x7-playground.   
 
             > [!CAUTION]   
             > - Always backup your boot & dtbo image first before proceeding!   
