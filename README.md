@@ -31,7 +31,7 @@ Currently added features:
 - KernelSU support (ReSukiSU) & SUSFS support (separate build)
 - Baseband Guard support
 - NoMount Meta Module support
-- Droidspaces container support
+- Droidspaces container support on select kernels
 - Compiled with -O3, LTO, LLVM=1
 
 # Compatibility
