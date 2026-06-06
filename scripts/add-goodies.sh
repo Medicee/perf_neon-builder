@@ -61,14 +61,45 @@ case "$KERNELSU_SELECTOR" in
             echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
         fi
-        # Kernel 4.14.357 edge case, might remove later
-        # if [[ "$KERNEL_VERSION" == "4.14" ]]; then
-        #     SUBVERSION_357_CHECK=$(grep -q "SUBLEVEL = 357" "${PWD}/Makefile" && echo "true")
-        #     if [[ "$SUBVERSION_357_CHECK" == "true" ]]; then
-        #         echo "-- Forcing ksu_for_each_lsm_entry to use hlist_for_each_entry..."
-        #         sed -i 's/define ksu_for_each_lsm_entry list_for_each_entry/define ksu_for_each_lsm_entry hlist_for_each_entry/g' drivers/kernelsu/feature/selinux_hide.c
-        #     fi
-        # fi
+        # Check if write_op, sel_handle_status_ops, sel_mutex are static
+        WRITE_OP_CHECK=$(grep -q "static ssize_t (*write_op[])(struct file *, char *, size_t) = {" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        SEL_HANDLE_STATUS_OPS_CHECK=$(grep -q "static const struct file_operations sel_handle_status_ops = {" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        SEL_MUTEX_CHECK=$(grep -q "static DEFINE_MUTEX(sel_mutex);" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        # Check if selinux_status_page, selinux_status_lock, policy_rwlock are static
+        SEL_STATUS_PAGE_CHECK=$(grep -q "static struct page *selinux_status_page;" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        SEL_STATUS_LOCK_CHECK=$(grep -q "static DEFINE_MUTEX(selinux_status_lock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        POLICY_RWLOCK_CHECK=$(grep -q "static DEFINE_RWLOCK(policy_rwlock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        # Check if selinux_ops are static
+        SELINUX_OPS_CHECK=$(grep -q "static struct security_operations selinux_ops = {" "${PWD}/security/selinux/hooks.c" && echo "true")
+        # Static variable exports
+        if [[ "$WRITE_OP_CHECK" == "true" ]]; then
+            echo "-- Exporting write_op symbol..."
+            sed -i 's/static ssize_t (\*write_op\[\])/ssize_t (\*write_op\[\])/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_HANDLE_STATUS_OPS_CHECK" == "true" ]]; then
+            echo "-- Exporting sel_handle_status_ops symbol..."
+            sed -i 's/static const struct file_operations sel_handle_status_ops/const struct file_operations sel_handle_status_ops/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_MUTEX_CHECK" == "true" ]]; then
+            echo "-- Exporting sel_mutex symbol..."
+            sed -i 's/static DEFINE_MUTEX(sel_mutex);/DEFINE_MUTEX(sel_mutex);/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_STATUS_PAGE_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_status_page symbol..."
+            sed -i 's/static struct page \*selinux_status_page;/struct page \*selinux_status_page;/' security/selinux/ss/services.c
+        fi
+        if [[ "$SEL_STATUS_LOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_status_lock symbol..."
+            sed -i 's/static DEFINE_MUTEX(selinux_status_lock);/DEFINE_MUTEX(selinux_status_lock);/' security/selinux/ss/services.c
+        fi
+        if [[ "$POLICY_RWLOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting policy_rwlock symbol..."
+            sed -i 's/static DEFINE_RWLOCK(policy_rwlock);/DEFINE_RWLOCK(policy_rwlock);/' security/selinux/ss/services.c
+        fi
+        if [[ "$SELINUX_OPS_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_ops symbol..."
+            sed -i 's/static struct security_operations selinux_ops/struct security_operations selinux_ops/' security/selinux/hooks.c
+        fi
         ;;
     ksunext|ksunext-susfs)
         # KernelSU Settings
@@ -115,6 +146,45 @@ case "$KERNELSU_SELECTOR" in
         if [[ "$KERNEL_VERSION" == "4.4" ]]; then
             echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
+        fi
+        # Check if write_op, sel_handle_status_ops, sel_mutex are static
+        WRITE_OP_CHECK=$(grep -q "static ssize_t (*write_op[])(struct file *, char *, size_t) = {" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        SEL_HANDLE_STATUS_OPS_CHECK=$(grep -q "static const struct file_operations sel_handle_status_ops = {" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        SEL_MUTEX_CHECK=$(grep -q "static DEFINE_MUTEX(sel_mutex);" "${PWD}/security/selinux/selinuxfs.c" && echo "true")
+        # Check if selinux_status_page, selinux_status_lock, policy_rwlock are static
+        SEL_STATUS_PAGE_CHECK=$(grep -q "static struct page *selinux_status_page;" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        SEL_STATUS_LOCK_CHECK=$(grep -q "static DEFINE_MUTEX(selinux_status_lock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        POLICY_RWLOCK_CHECK=$(grep -q "static DEFINE_RWLOCK(policy_rwlock);" "${PWD}/security/selinux/ss/services.c" && echo "true")
+        # Check if selinux_ops are static
+        SELINUX_OPS_CHECK=$(grep -q "static struct security_operations selinux_ops = {" "${PWD}/security/selinux/hooks.c" && echo "true")
+        # Static variable exports
+        if [[ "$WRITE_OP_CHECK" == "true" ]]; then
+            echo "-- Exporting write_op symbol..."
+            sed -i 's/static ssize_t (\*write_op\[\])/ssize_t (\*write_op\[\])/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_HANDLE_STATUS_OPS_CHECK" == "true" ]]; then
+            echo "-- Exporting sel_handle_status_ops symbol..."
+            sed -i 's/static const struct file_operations sel_handle_status_ops/const struct file_operations sel_handle_status_ops/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_MUTEX_CHECK" == "true" ]]; then
+            echo "-- Exporting sel_mutex symbol..."
+            sed -i 's/static DEFINE_MUTEX(sel_mutex);/DEFINE_MUTEX(sel_mutex);/' security/selinux/selinuxfs.c
+        fi
+        if [[ "$SEL_STATUS_PAGE_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_status_page symbol..."
+            sed -i 's/static struct page \*selinux_status_page;/struct page \*selinux_status_page;/' security/selinux/ss/services.c
+        fi
+        if [[ "$SEL_STATUS_LOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_status_lock symbol..."
+            sed -i 's/static DEFINE_MUTEX(selinux_status_lock);/DEFINE_MUTEX(selinux_status_lock);/' security/selinux/ss/services.c
+        fi
+        if [[ "$POLICY_RWLOCK_CHECK" == "true" ]]; then
+            echo "-- Exporting policy_rwlock symbol..."
+            sed -i 's/static DEFINE_RWLOCK(policy_rwlock);/DEFINE_RWLOCK(policy_rwlock);/' security/selinux/ss/services.c
+        fi
+        if [[ "$SELINUX_OPS_CHECK" == "true" ]]; then
+            echo "-- Exporting selinux_ops symbol..."
+            sed -i 's/static struct security_operations selinux_ops/struct security_operations selinux_ops/' security/selinux/hooks.c
         fi
         ;;
     none|"")
