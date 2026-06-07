@@ -194,9 +194,8 @@ jobs:
           prerelease: true
           body: |
             > [!IMPORTANT]   
-            > - This kernel only be used for playtesting purposes. Do NOT report bugs to the original author.   
-            > - This kernel already includes ReSukiSU. Also SUSFS, NoMount and Baseband Guard too.   
-            > - The Kernels that built with LTO enabled are mi89x7-playground.   
+            > - This sections contains community-built kernels thats not a part of LineageOS official releases.   
+            > - Kernels already includes everything you already expect from the main release.   
 
             > [!CAUTION]   
             > - Always backup your boot & dtbo image first before proceeding!   
