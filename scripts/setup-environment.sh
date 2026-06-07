@@ -57,7 +57,7 @@ case "$DEVICE_IMPORT" in
         export ACTUAL_MAIN_DEFCONFIG="vendor/kona-perf_defconfig"
         export DEVICE_DEFCONFIG="vendor/xiaomi/sm8250-common.config vendor/xiaomi/${DEVICE_IMPORT}.config"
         if [ "$DEVICE_IMPORT" = "alioth-droidspaces" ]; then
-            export DEVICE_DEFCONFIG="vendor/alioth.config"
+            export DEVICE_DEFCONFIG="vendor/xiaomi/sm8250-common.config vendor/xiaomi/alioth.config"
             export KERNEL_NAME="-perf-droidspaces-neon"
         fi
         export KERNEL_VERSION="4.19"
