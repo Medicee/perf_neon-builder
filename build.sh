@@ -15,10 +15,10 @@ echo " "
 
 # Validate input arguments
 echo "- Validating input arguments..."
-if [ $# -ne 5 ]; then
+if [ $# -ne 6 ]; then
     echo ""
-    echo "-- Usage: $0 [device] [kernelsu_options] [bbg_options] [nomount_options] [droidspaces_options]"
-    echo "-- Example: $0 sweet zako bbg nomount droidspaces"
+    echo "-- Usage: $0 [device] [kernelsu_options] [bbg_options] [nomount_options] [droidspaces_options] [rekernel_options]"
+    echo "-- Example: $0 sweet zako bbg nomount droidspaces rekernel"
     echo ""
     exit 1
 fi
@@ -30,6 +30,7 @@ export KERNELSU_SELECTOR="$2"
 export BBG_SELECTOR="$3"
 export NOMOUNT_SELECTOR="$4"
 export DROIDSPACES_SELECTOR="$5"
+export REKERNEL_SELECTOR="$6"
 
 # Setup Environment
 chmod +x scripts/setup-environment.sh

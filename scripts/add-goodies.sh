@@ -11,6 +11,9 @@ export DROIDSPACES_XT_QTAGUID="https://github.com/ravindu644/Droidspaces-OSS/raw
 export DROIDSPACES_CGROUP="https://github.com/ravindu644/Droidspaces-OSS/raw/refs/heads/main/Documentation/resources/kernel-patches/non-GKI/02.fix_restore%20cgroup%20file%20prefix%20handling%20.patch"
 export DROIDSPACES_SYSVIPC="https://github.com/ravindu644/Droidspaces-OSS/raw/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch"
 export DROIDSPACES_MQUEUE="https://github.com/ravindu644/Droidspaces-OSS/raw/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch"
+export REKERNEL_PATCH="https://github.com/JackA1ltman/NonGKI_Kernel_Build_2nd/raw/refs/heads/mainline/Patches/Rekernel/rekernel_extra.patch"
+export REKERNEL_SETUP="https://github.com/JackA1ltman/NonGKI_Kernel_Build_2nd/raw/refs/heads/mainline/Patches/Rekernel/rekernel_patches.sh"
+
 
 # KernelSU setup
 echo "-- Setting up KernelSU..."
@@ -406,6 +409,26 @@ case "$DROIDSPACES_SELECTOR" in
         ;;
     *)
         echo "- Invalid DROIDSPACES_SELECTOR: $DROIDSPACES_SELECTOR. Valid options: droidspaces, none."
+        exit 1
+        ;;
+esac
+
+# Rekernel setup
+case "$REKERNEL_SELECTOR" in
+    rekernel)
+        echo "-- Setting up Rekernel..."
+        # Download and apply Rekernel patch
+        wget -qO- $REKERNEL_PATCH | patch -s -p1 --fuzz=5
+        # Download Rekernel setup script
+        curl -LSs "$REKERNEL_SETUP" | bash &> /dev/null
+        # Enable the necessary Rekernel configs
+        echo "CONFIG_REKERNEL=y" >> $MAIN_DEFCONFIG
+        ;;
+    none|"")
+        echo "-- Rekernel is not selected."
+        ;;
+    *)
+        echo "- Invalid REKERNEL_SELECTOR: $REKERNEL_SELECTOR. Valid options: rekernel, none."
         exit 1
         ;;
 esac
