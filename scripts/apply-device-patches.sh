@@ -43,7 +43,7 @@ KPATCH_PATCH="https://github.com/TheSillyOk/kernel_ls_patches/raw/refs/heads/mas
 
 # Patcher - 1.0
 case "$DEVICE_IMPORT" in
-    sweet|davinci|tucana|violet|ginkgo|laurel_sprout|sweet-playground|sweet-droidspaces|ginkgo-droidspaces)
+    sweet|sweet-droidspaces|davinci|tucana|violet|ginkgo|ginkgo-droidspaces|laurel_sprout|sweet-playground)
         # Device specific for 4.14
         if [[ "$DEVICE_IMPORT" == "sweet" ]] || [[ "$DEVICE_IMPORT" == "sweet-playground" ]] || [[ "$DEVICE_IMPORT" == "sweet-droidspaces" ]]; then
             echo "-- Applying LN8K patches..."
@@ -90,9 +90,9 @@ case "$DEVICE_IMPORT" in
         echo "CONFIG_EROFS_FS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SECURITY_SELINUX_DEVELOP=y" >> $MAIN_DEFCONFIG
         ;;
-    alioth|alioth-droidspaces|lmi|munch|mi89x7|mi89x7-playground|mi89x7-droidspaces)
+    umi|umi-droidspaces|mi89x7-playground|mi89x7-droidspaces)
         # Device specific for 4.19
-        if [[ "$DEVICE_IMPORT" == "alioth" ]] || [[ "$DEVICE_IMPORT" == "alioth-droidspaces" ]] || [[ "$DEVICE_IMPORT" == "lmi" ]] || [[ "$DEVICE_IMPORT" == "munch" ]]; then
+        if [[ "$DEVICE_IMPORT" == "umi" ]] || [[ "$DEVICE_IMPORT" == "umi-droidspaces" ]]; then
             # Shared patches for 4.14
             echo "-- Applying shared patches (DTBO)..."
             apply_patches "${DTBO_PATCHES[@]}"
