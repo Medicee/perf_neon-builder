@@ -20,7 +20,7 @@ jobs:
         ksu-type: [zako, zako-susfs, none]
         bbg-type: [bbg]
         nomount-type: [nomount]
-        droidspaces-type: [droidspaces]
+        droidspaces-type: [none]
 
     steps:
       - uses: actions/checkout@v6
