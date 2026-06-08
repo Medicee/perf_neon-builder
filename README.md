@@ -28,7 +28,7 @@ This kernel follows weekly builds of LineageOS, you will get a new kernel build 
 
 # Features
 Currently added features:
-- KernelSU support (ReSukiSU) & SUSFS support (separate build)
+- KernelSU support (ReSukiSU) & SUSFS support
 - Baseband Guard support
 - NoMount Meta Module support
 - Droidspaces container support
