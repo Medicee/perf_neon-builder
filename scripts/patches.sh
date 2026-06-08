@@ -30,14 +30,6 @@ revert_commit() {
 }
 
 # Shared patches for 4.14
-DTBO_PATCHES=(
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/e517bc363a19951ead919025a560f843c2c03ad3.patch"
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/a62a3b05d0f29aab9c4bf8d15fe786a8c8a32c98.patch"
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/4b89948ec7d610f997dd1dab813897f11f403a06.patch"
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/fade7df36b01f2b170c78c63eb8fe0d11c613c4a.patch"
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/2628183db0d96be8dae38a21f2b09cb10978f423.patch"
-    "https://github.com/xiaomi-sm6150/android_kernel_xiaomi_sm6150/commit/31f4577af3f8255ae503a5b30d8f68906edde85f.patch"
-)
 LTO_PATCH="https://github.com/TheSillyOk/kernel_ls_patches/raw/refs/heads/master/fix_lto.patch"
 KPATCH_PATCH="https://github.com/TheSillyOk/kernel_ls_patches/raw/refs/heads/master/kpatch_fix.patch"
 
@@ -65,25 +57,15 @@ case "$DEVICE_IMPORT" in
             fi
             apply_patches "${LN8K_PATCHES[@]}"
             echo "CONFIG_CHARGER_LN8000=y" >> $MAIN_DEFCONFIG
-        elif [[ "$DEVICE_IMPORT" == "ginkgo" ]] || [[ "$DEVICE_IMPORT" == "laurel_sprout" ]]; then
-            echo "-- Applying DTC patches..."
-            apply_patches \
-                "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/e207247aa4553fff7190dde5dabb50aec400b513.patch" \
-                "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/ae58bbd8f7af4c3c290e63ddcd4112559c5fc240.patch"
-        fi
-        # DTBO patches for 4.14
+        # LTO patches for 4.14
         if [[ "$DEVICE_IMPORT" != "sweet-playground" ]]; then
-            echo "-- Applying DTBO & LTO patches..."
-            apply_patches "${DTBO_PATCHES[@]}" "$LTO_PATCH"
+            echo "-- Applying LTO patches..."
+            apply_patches "$LTO_PATCH"
             echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
-        else
-            echo "-- Enabling kallsyms..."
-            echo "CONFIG_KALLSYMS=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_KALLSYMS_ALL=y" >> $MAIN_DEFCONFIG
         fi
         # Shared patches for 4.14
-        echo "-- Applying shared patches (KPATCH)..."
+        echo "-- Applying KPATCH patches..."
         apply_patches "$KPATCH_PATCH"
         # Common configs for 4.14
         echo "-- Tuning default configs..."
