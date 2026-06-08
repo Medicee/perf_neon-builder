@@ -55,23 +55,6 @@ case "$KERNELSU_SELECTOR" in
             echo "-- Re-tuning ksu_handle_devpts under 4.4..."
             sed -i '/static struct tty_struct \*pts_unix98_lookup/,/}/ s/ksu_handle_devpts((struct inode \*)file->f_path.dentry->d_inode);/ksu_handle_devpts(pts_inode);/' drivers/tty/pty.c
         fi
-
-        # Export SELinux Symbols
-        echo "-- Checking and exporting static SELinux symbols..."
-        unstatic() {
-            local file="$1" regex="$2"
-            if [ -f "$file" ] && grep -q "static $regex" "$file" 2>/dev/null; then
-                sed -i "s/static $regex/$regex/" "$file"
-                echo "   -> Exported: $regex"
-            fi
-        }
-        unstatic "security/selinux/selinuxfs.c" "ssize_t (\*write_op\[\])"
-        unstatic "security/selinux/selinuxfs.c" "const struct file_operations sel_handle_status_ops"
-        unstatic "security/selinux/selinuxfs.c" "DEFINE_MUTEX(sel_mutex);"
-        unstatic "security/selinux/ss/services.c" "struct page \*selinux_status_page;"
-        unstatic "security/selinux/ss/services.c" "DEFINE_MUTEX(selinux_status_lock);"
-        unstatic "security/selinux/ss/services.c" "DEFINE_RWLOCK(policy_rwlock);"
-        unstatic "security/selinux/hooks.c" "struct security_operations selinux_ops"
         ;;
     none|"")
         echo "-- KernelSU is not selected."
