@@ -31,8 +31,7 @@ Currently added features:
 - KernelSU support (ReSukiSU) & SUSFS support (separate build)
 - Baseband Guard support
 - NoMount Meta Module support
-- ReKernel net support
-- Droidspaces container support on select kernels
+- Droidspaces container support
 - Compiled with -O3, LTO, LLVM=1
 
 # Compatibility
@@ -55,14 +54,13 @@ Patches & buildscript
 - [TBYOOL](https://github.com/tbyool) for the buildscripts & kernel patches.   
 - [xiaomi-sm6150](https://github.com/xiaomi-sm6150) for the dtbo patches.   
 - [crdroidandroid](https://github.com/crdroidandroid) for the ln8000 patches.   
-- [JackA1ltMan](https://github.com/JackA1ltman) for syscall hook script, susfs inline hook script, ReKernel hook script, SUSFS patches & ReKernel patches.   
+- [JackA1ltMan](https://github.com/JackA1ltman) for syscall hook script, susfs inline hook script & SUSFS patches.   
 - [TheSillyOk](https://github.com/TheSillyOk) for LTO & kpatch fixup for 4.14 devices.   
 
 Projects   
 - [ReSukiSU](https://github.com/ReSukiSU) for ReSukiSU.
 - [vc-teahouse](https://github.com/vc-teahouse) for Baseband Guard.   
 - [maxsteeel](https://github.com/maxsteeel) for NoMount.   
-- [Sakion-Team](https://github.com/Sakion-Team) for ReKernel.
 - [ravindu644](https://github.com/ravindu644) for Droidspaces.   
 - [LineageOS](https://github.com/LineageOS) for kernel sources.   
 - [PixelOS-Devices](https://github.com/PixelOS-Devices) for kernel sources.   
