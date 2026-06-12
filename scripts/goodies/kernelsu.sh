@@ -36,7 +36,7 @@ case "$KERNELSU_SELECTOR" in
 
         # SUSFS Logic
         if [[ "$KERNELSU_SELECTOR" == "zako-susfs" ]]; then
-            wget -qO- "$SUSFS_PATCH" | patch -s -p1 --fuzz=5
+            wget -qO- "$SUSFS_PATCH" | patch -s -p1 --fuzz=10
             echo "CONFIG_KSU_SUSFS=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> $MAIN_DEFCONFIG
