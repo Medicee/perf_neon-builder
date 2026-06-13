@@ -46,6 +46,12 @@ case "$DEVICE_IMPORT" in
         export KERNEL_VERSION="4.19"
         export KBUILD_BUILD_USER=isaiah-compile
         ;;
+    d2s|d2x)
+        export MAIN_DEFCONFIG="arch/arm64/configs/exynos9820-${DEVICE_IMPORT}_defconfig"
+        export ACTUAL_MAIN_DEFCONFIG="exynos9820-${DEVICE_IMPORT}_defconfig"
+        export DEVICE_DEFCONFIG=""
+        export COMMON_DEFCONFIG=""
+    ;;
     # Mi-Thorium
     mi89x7-playground)
         export MAIN_DEFCONFIG="arch/arm64/configs/vendor/msm8937-perf_defconfig"
