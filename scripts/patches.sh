@@ -70,8 +70,10 @@ case "$DEVICE_IMPORT" in
             apply_patches "$LTO_PATCH"
             echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
-            echo "-- Applying KPATCH patches..."
-            apply_patches "$KPATCH_PATCH"
+            if [[ "$DEVICE_IMPORT" != "d2s" && "$DEVICE_IMPORT" != "d2x" ]]; then
+                echo "-- Applying KPATCH patches..."
+                apply_patches "$KPATCH_PATCH"
+            fi
         fi
         # Common configs for 4.14
         echo "-- Tuning default configs..."
