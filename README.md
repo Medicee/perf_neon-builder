@@ -44,6 +44,7 @@ Currently supported device
 - Xiaomi Mi A3 ([laurel_sprout](https://download.lineageos.org/devices/laurel_sprout/builds))   
 - Xiaomi Mi 10 ([umi](https://download.lineageos.org/devices/umi/builds))   
 - Xiaomi Mi 10 Pro ([cmi](https://download.lineageos.org/devices/cmi/builds))   
+- Samsung Galaxy Tab A7 10.4 2020 ([gta4l](https://download.lineageos.org/devices/gta4l/builds))   
 
 Externally compiled kernels   
 - Samsung A52 4G ([a52q](https://download.lineageos.org/devices/a52q/builds)) from LineageOS   
