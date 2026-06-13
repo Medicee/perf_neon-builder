@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         build-type: [d2s, d2x]
-        ksu-type: [zako-susfs]
+        ksu-type: [zako]
         bbg-type: [bbg]
         nomount-type: [nomount]
         droidspaces-type: [droidspaces]
