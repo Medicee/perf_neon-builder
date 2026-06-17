@@ -77,7 +77,7 @@ On ReSukiSU Manager
 Restore to default kernel
 - You'll need to remove everything inside `/data/adb`. You can do this with `su -c rm -rf /data/adb/*`.
 - Then immediately reboot to bootloader/fastbootd.   
-- FLash the stock boot image with `fastboot flash boot <theoriginalbootimage.img>`
+- Flash the stock boot image with `fastboot flash boot <theoriginalbootimage.img>`
 - Reboot with `fastboot reboot` and pray everything works.   
 - Profit.   
 
