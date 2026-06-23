@@ -22,13 +22,13 @@ jobs:
             ksu-type: zako-susfs
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           - build-type: sweet-playground
             ksu-type: none
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           # --- mi89x7-playground Builds ---
           - build-type: mi89x7-playground
@@ -48,52 +48,52 @@ jobs:
             ksu-type: zako
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           - build-type: a52q
             ksu-type: none
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           # --- a72q Builds ---
           - build-type: a72q
             ksu-type: zako
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           - build-type: a72q
             ksu-type: none
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           # --- d2s Builds ---
           - build-type: d2s
             ksu-type: zako
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           - build-type: d2s
             ksu-type: none
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           # --- d2x Builds ---
           - build-type: d2x
             ksu-type: zako
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
           - build-type: d2x
             ksu-type: none
             bbg-type: bbg
             nomount-type: nomount
-            droidspaces-type: droidspaces
+            droidspaces-type: none
 
     steps:
       - uses: actions/checkout@v6
