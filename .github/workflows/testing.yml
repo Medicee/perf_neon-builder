@@ -18,7 +18,8 @@ jobs:
         ksu-type: [zako-susfs]
         bbg-type: [bbg]
         nomount-type: [nomount]
-        droidspaces-type: [droidspaces]
+        droidspaces-type: [none]
+        rekernel-type: [rekernel]
 
     steps:
       - uses: actions/checkout@v6
@@ -182,43 +183,43 @@ jobs:
           echo "Starting to compile..."
           if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
             cd android_kernel_xiaomi_sm6150/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
             cd android_kernel_xiaomi_sm6125/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
             cd android_kernel_xiaomi_sm8250/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "mi89x7" ]]; then
             cd android_kernel_xiaomi_msm8937/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "mi89x7-community" || "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             cd android_kernel_xiaomi_msm8937/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "sweet-playground" || "${{ matrix.build-type }}" == "sweet-miui" ]]; then
             cd android_kernel_xiaomi_sm6150/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
             cd android_kernel_samsung_a9y18qlte/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "a52q" || "${{ matrix.build-type }}" == "a72q" ]]; then
             cd android_kernel_samsung_sm7125/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "gta4l" ]]; then
             cd android_kernel_samsung_sm6115/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           elif [[ "${{ matrix.build-type }}" == "d2s" || "${{ matrix.build-type }}" == "d2x" ]]; then
             cd android_kernel_samsung_exynos9820/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }}
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           else
             echo "Invalid build type: ${{ matrix.build-type }}"
@@ -369,6 +370,6 @@ jobs:
       - name: Pack & upload artifacts (All builds)
         uses: actions/upload-artifact@v6
         with:
-          name: perf-neon-${{ matrix.build-type }}-${{ matrix.ksu-type }}-${{ matrix.bbg-type }}-${{ matrix.nomount-type }}-${{ matrix.droidspaces-type }}-testing-${{ steps.ts.outputs.DATE }}-${{ steps.ts.outputs.TIME }}
+          name: perf-neon-${{ matrix.build-type }}-${{ matrix.ksu-type }}-${{ matrix.bbg-type }}-${{ matrix.nomount-type }}-${{ matrix.droidspaces-type }}-${{ matrix.rekernel-type }}-testing-${{ steps.ts.outputs.DATE }}-${{ steps.ts.outputs.TIME }}
           path: |
             AnyKernel3/*
