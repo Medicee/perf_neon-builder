@@ -107,6 +107,21 @@ jobs:
             droidspaces-type: none
             rekernel-type: none
 
+          # --- a9y18qlte Builds ---
+          - build-type: a9y18qlte
+            ksu-type: zako
+            bbg-type: none
+            nomount-type: none
+            droidspaces-type: none
+            rekernel-type: none
+
+          - build-type: a9y18qlte
+            ksu-type: none
+            bbg-type: none
+            nomount-type: none
+            droidspaces-type: none
+            rekernel-type: none
+
     steps:
       - uses: actions/checkout@v6
 
@@ -188,6 +203,16 @@ jobs:
             cp build.sh android_kernel_samsung_exynos9820/
             cp -r scripts android_kernel_samsung_exynos9820/
             chmod +x ./android_kernel_samsung_exynos9820/build.sh
+          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
+            if [ -d "$PWD/android_kernel_samsung_a9y18qlte" ]; then
+              rm -rf android_kernel_samsung_a9y18qlte
+            fi
+            echo "Cloning kernel sources..."
+            git clone https://github.com/riarumoda/kernel_samsung_a9y18qlte.git -b "master" --depth=1 android_kernel_samsung_a9y18qlte
+            echo "Copying buildscript..."
+            cp build.sh android_kernel_samsung_a9y18qlte/
+            cp -r scripts android_kernel_samsung_a9y18qlte/
+            chmod +x ./android_kernel_samsung_a9y18qlte/build.sh
           else
             echo "Invalid build type: ${{ matrix.build-type }}"
             exit 1
@@ -210,6 +235,10 @@ jobs:
             cd ..
           elif [[ "${{ matrix.build-type }}" == "d2s" || "${{ matrix.build-type }}" == "d2x" ]]; then
             cd android_kernel_samsung_exynos9820/
+            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
+            cd ..
+          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
+            cd android_kernel_samsung_a9y18qlte/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
           else
@@ -264,6 +293,14 @@ jobs:
               sed -i 's/device.name2=sweetin/device.name2=d2xx/' AnyKernel3/anykernel.sh
               sed -i 's/sweet (sm6150)/d2x (exynos9820)/g' AnyKernel3/banner
             fi
+          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
+            cp android_kernel_samsung_a9y18qlte/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
+            sed -i 's/supported.versions=11-16/supported.versions=10-11/' AnyKernel3/anykernel.sh
+            if [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
+              sed -i 's/device.name1=sweet/device.name1=a9y18qlte/' AnyKernel3/anykernel.sh
+              sed -i 's/device.name2=sweetin/device.name2=a9y18qltexx/' AnyKernel3/anykernel.sh
+              sed -i 's/sweet (sm6150)/a9y18qlte (sdm660)/g' AnyKernel3/banner
+            fi
           else
             echo "Invalid build type: ${{ matrix.build-type }}"
             exit 1
@@ -281,6 +318,8 @@ jobs:
             export KERNELNAME="VantomKernel"
           elif [[ "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
             export KERNELNAME="Mi8937v2"
+          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
+            export KERNELNAME="RiaruKernel"
           else
             export KERNELNAME="perf-neon"
           fi
