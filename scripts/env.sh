@@ -80,8 +80,8 @@ case "$DEVICE_IMPORT" in
         ;;
     # MIUI
     sweet-miui)
-        export MAIN_DEFCONFIG="arch/arm64/configs/sweet_defconfig"
-        export ACTUAL_MAIN_DEFCONFIG="sweet_defconfig"
+        export MAIN_DEFCONFIG="arch/arm64/configs/vendor/sweet_defconfig"
+        export ACTUAL_MAIN_DEFCONFIG="vendor/sweet_defconfig"
         export COMMON_DEFCONFIG="vendor/debugfs.config"
         export DEVICE_DEFCONFIG=""
         export KERNEL_NAME="-miui-neon"
