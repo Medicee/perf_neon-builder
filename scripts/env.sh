@@ -78,6 +78,14 @@ case "$DEVICE_IMPORT" in
         export DEVICE_DEFCONFIG=""
         export KERNEL_NAME="-vantom-neon"
         ;;
+    # MIUI
+    sweet-miui)
+        export MAIN_DEFCONFIG="arch/arm64/configs/sweet_defconfig"
+        export ACTUAL_MAIN_DEFCONFIG="sweet_defconfig"
+        export COMMON_DEFCONFIG="vendor/debugfs.config"
+        export DEVICE_DEFCONFIG=""
+        export KERNEL_NAME="-miui-neon"
+        ;;
     # OneUI
     a9y18qlte)
         export MAIN_DEFCONFIG="arch/arm64/configs/a9y18qlte_eur_open_defconfig"
@@ -88,7 +96,7 @@ case "$DEVICE_IMPORT" in
         export KERNEL_VERSION="4.4"
         ;;
     *)
-        echo "- Invalid DEVICE_IMPORT. Valid options: sweet, davinci, ginkgo, laurel_sprout, mi89x7-playground, a9y18qlte. Yours: $DEVICE_IMPORT."
+        echo "- Invalid DEVICE_IMPORT. Valid options: sweet, davinci, ginkgo, laurel_sprout, mi89x7-playground, sweet-miui, a9y18qlte. Yours: $DEVICE_IMPORT."
         exit 1
         ;;
 esac
