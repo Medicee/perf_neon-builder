@@ -59,8 +59,6 @@ case "$DEVICE_IMPORT" in
         if [[ "$DEVICE_IMPORT" != "sweet-playground" && "$DEVICE_IMPORT" != "miatoll" ]]; then
             echo "-- Applying LTO patches..."
             apply_patches "$LTO_PATCH"
-            echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
             if [[ "$DEVICE_IMPORT" != "d2s" && "$DEVICE_IMPORT" != "d2x" ]]; then
                 echo "-- Applying KPATCH patches..."
                 apply_patches "$KPATCH_PATCH"
@@ -68,6 +66,10 @@ case "$DEVICE_IMPORT" in
         fi
         # Common configs for 4.14
         echo "-- Tuning default configs..."
+        if [[ "$DEVICE_IMPORT" != "sweet-playground" ]]; then
+            echo "CONFIG_LTO_CLANG=y" >> $MAIN_DEFCONFIG
+            echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
+        fi
         echo "CONFIG_EROFS_FS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SECURITY_SELINUX_DEVELOP=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_KALLSYMS_ALL=y" >> $MAIN_DEFCONFIG
