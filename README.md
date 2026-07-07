@@ -22,26 +22,33 @@
 <p align="right">Your typical XDA Forum Disclaimer.<p>   
 
 # Background
-The naming, Perf Neon, is inspired by a Linux Distribution called KDE Neon, where KDE take latest Ubuntu LTS as a base system and then put Latest KDE on top of it. Same thing as Perf Neon, where i take whatever the world the LineageOS team put under their kernel source and then put minimal patches on top of it.
+The naming, Perf Neon, is inspired by a Linux Distribution called KDE Neon, where KDE take latest Ubuntu LTS as a base system and then put Latest KDE on top of it. Same thing as Perf Neon, where i take whatever the world the LineageOS team put under their kernel source and then put minimal patches on top of it.   
 
 # What is it for?
-While it's mostly used for another kernel developers to compare their work with a literal close-to-stock kernel, it's also fulfill the dream of a purists, where they want everything stable but also wanted extra spices on top of it.
+While it's mostly used for another kernel developers to compare their work with a literal close-to-stock kernel, it's also fulfill the dream of a purists, where they want everything stable but also wanted extra spices on top of it.   
 
 # Release schedules
-This kernel follows weekly builds of LineageOS, you will get a new kernel build every sunday. You might need to check out the GitHub repo for new releases.
+This kernel follows weekly builds of LineageOS, you will get a new kernel build every sunday. You might need to check out the GitHub repo for new releases.   
 
 # Features
-Currently added features:
-- KernelSU support (ReSukiSU) & SUSFS support
-- Baseband Guard support
-- NoMount Meta Module support
-- Droidspaces container support
-- ReKernel tombstones support
-- Compiled with -O3, LTO, LLVM=1
+Currently available features:   
+- KernelSU support (ReSukiSU) & SUSFS support   
+- Baseband Guard support   
+- NoMount Meta Module support   
+- Droidspaces container support   
+- ReKernel tombstones support   
+- Compiled with -O3, LTO, LLVM=1   
+
+Currently added features into the kernel:   
+- Every features is guaranteed available on Weekly release.   
+- Samsung A52, A72, Note 10+, Note 10+ 5G: KernelSU w/o SUSFS, Baseband Guard, NoMount, LTO.   
+- Redmi Mi89x7, Miatoll: KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel, LTO.   
+- Redmi Note 10 Pro/Pro Max (PixelOS): KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel.   
+- Samsung A9 (2018) (OneUI): KernelSU w/o SUSFS.   
 
 # Compatibility
 Currently supported device   
-- Redmi K20/Mi 9T ([davinci](https://download.lineageos.org/devices/davinci/builds)) 
+- Redmi K20/Mi 9T ([davinci](https://download.lineageos.org/devices/davinci/builds))   
 - Redmi Note 10 Pro/Pro Max ([sweet](https://download.lineageos.org/devices/sweet/builds))   
 - Xiaomi Mi Note 10/Note 10 Pro/CC9 Pro ([tucana](https://download.lineageos.org/devices/tucana/builds))   
 - Redmi Note 7 Pro ([violet](https://download.lineageos.org/devices/violet/builds))   
@@ -52,10 +59,12 @@ Currently supported device
 - Samsung Tab A7 10.4 2020 ([gta4l](https://download.lineageos.org/devices/gta4l/builds))   
 
 Externally compiled kernels   
+- POCO M2 Pro/Redmi Note 9S/Redmi Note 9 Pro/Redmi Note 9 Pro Max/Redmi Note 10 Lite ([miatoll](https://download.lineageos.org/devices/miatoll/builds)) from LineageOS   
 - Samsung A52 4G ([a52q](https://download.lineageos.org/devices/a52q/builds)) from LineageOS   
 - Samsung A72 ([a72q](https://download.lineageos.org/devices/a72q/builds)) from LineageOS   
 - Samsung Note 10+ ([d2s](https://download.lineageos.org/devices/d2s/builds)) from LineageOS   
 - Samsung Note 10+ 5G ([d2x](https://download.lineageos.org/devices/d2x/builds)) from LineageOS   
+- Samsung A9 (2018) ([a9y18qlte](https://github.com/riarumoda/kernel_samsung_a9y18qlte)) from Riaru Kernels & OneUI   
 - Redmi Note 10 Pro/Pro Max ([sweet](https://pixelos.net/download/sweet)) from PixelOS   
 - Redmi 4A/5A/Note 5A Lite/Y1 Lite ([mi8917](https://download.lineageos.org/devices/Mi8917/builds)) from Mi-Thorium   
 - Redmi 3/3S/4/4X/Note 5A Prime/Y1 Prime ([mi8937](https://download.lineageos.org/devices/Mi8937/builds)) from Mi-Thorium   
@@ -68,17 +77,17 @@ On Recovery
 - Reboot to system and pray everything works.   
 - Profit.   
 
-On ReSukiSU Manager
-- On ReSukiSU Manager, click the "Working" card on the ReSukiSU Manager Home Screen.
+On ReSukiSU Manager   
+- On ReSukiSU Manager, click the "Working" card on the ReSukiSU Manager Home Screen.   
 - You'll see flash AnyKernel3, click it, and select the flashable zip.   
 - Click next and the flashable will be installed. If you see KPM option, just choose follow kernel.   
 - Reboot and pray everything works.   
 - Profit.   
 
-Restore to default kernel
-- You'll need to remove everything inside `/data/adb`. You can do this with `su -c rm -rf /data/adb/*`.
+Restore to default kernel   
+- You'll need to remove everything inside `/data/adb`. You can do this with `su -c rm -rf /data/adb/*`.   
 - Then immediately reboot to bootloader/fastbootd.   
-- Flash the stock boot image with `fastboot flash boot <theoriginalbootimage.img>`
+- Flash the stock boot image with `fastboot flash boot <theoriginalbootimage.img>`   
 - Reboot with `fastboot reboot` and pray everything works.   
 - Profit.   
 
