@@ -18,7 +18,7 @@ jobs:
         ksu-type: [zako-susfs, none]
         bbg-type: [bbg]
         nomount-type: [nomount]
-        droidspaces-type: [droidspaces]
+        droidspaces-type: [none]
         rekernel-type: [rekernel]
 
     steps:
