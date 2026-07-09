@@ -39,15 +39,19 @@ case "$DEVICE_IMPORT" in
         # Device specific for 4.14
         if [[ "$DEVICE_IMPORT" == "sweet-playground" ]]; then
             echo "-- Applying LN8K patches..."
-            LN8K_PATCHES=(
-                "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/4165bc93f98408fa2123155f790783f3e150f439.patch"
+            LN8K_COMMON=(
                 "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/b2098690243086601ca394b4bcd5fb4e94ce68ec.patch"
                 "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/33214bb2481d3279764f14fbb4b84d329be95410.patch"
                 "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/c6b5c9eff5fc9e07580ed8d75bd52caf396021aa.patch"
                 "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/95d285024e700545e0d44d5683615b7285063f25.patch"
-                "https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/9e8d4be7a3e2868491486ac86c9e5aa52a5a0c53.patch"
             )
-            apply_patches "${LN8K_PATCHES[@]}"
+            LN8K_EXTRA="https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/9e8d4be7a3e2868491486ac86c9e5aa52a5a0c53.patch"
+            apply_patches "${LN8K_COMMON[@]}"
+            if [[ "$DEVICE_IMPORT" == "sweet-playground" ]]; then
+                wget -qO- "$LN8K_EXTRA" | filterdiff -x a/drivers/power/supply/qcom/smb5-lib.c | patch -s -p1
+            else
+                wget -qO- "$LN8K_EXTRA" | patch -s -p1
+            fi
             echo "CONFIG_CHARGER_LN8000=y" >> $MAIN_DEFCONFIG
         fi
         if [[ "$DEVICE_IMPORT" == "ginkgo" ]] || [[ "$DEVICE_IMPORT" == "laurel_sprout" ]] || [[ "$DEVICE_IMPORT" == "miatoll" ]]; then
