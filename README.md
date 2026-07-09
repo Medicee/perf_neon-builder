@@ -42,8 +42,8 @@ Currently available features:
 Currently added features into the kernel:   
 - Every features is guaranteed available on Weekly release.   
 - Samsung A52, A72, Note 10+, Note 10+ 5G: KernelSU w/o SUSFS, Baseband Guard, NoMount, LTO.   
-- Redmi Mi89x7, Miatoll: KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel, LTO.   
-- Redmi Note 10 Pro/Pro Max (PixelOS): KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel.   
+- Redmi Mi89x7, Miatoll, Sweet (MIUI): KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel, LTO.   
+- Redmi Sweet (PixelOS): KernelSU w/ SUSFS, Baseband Guard, Nomount, ReKernel.   
 - Samsung A9 (2018) (OneUI): KernelSU w/o SUSFS.   
 
 # Compatibility
@@ -66,6 +66,7 @@ Externally compiled kernels
 - Samsung Note 10+ 5G ([d2x](https://download.lineageos.org/devices/d2x/builds)) from LineageOS   
 - Samsung A9 (2018) ([a9y18qlte](https://github.com/riarumoda/kernel_samsung_a9y18qlte)) from Riaru Kernels & OneUI   
 - Redmi Note 10 Pro/Pro Max ([sweet](https://pixelos.net/download/sweet)) from PixelOS   
+- Redmi Note 10 Pro/Pro Max ([sweet](https://github.com/riarumoda/android_kernel_xiaomi_sm6150)) from Riaru Kernels & MIUI   
 - Redmi 4A/5A/Note 5A Lite/Y1 Lite ([mi8917](https://download.lineageos.org/devices/Mi8917/builds)) from Mi-Thorium   
 - Redmi 3/3S/4/4X/Note 5A Prime/Y1 Prime ([mi8937](https://download.lineageos.org/devices/Mi8937/builds)) from Mi-Thorium   
 
