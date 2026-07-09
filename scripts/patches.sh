@@ -48,8 +48,10 @@ case "$DEVICE_IMPORT" in
             LN8K_EXTRA="https://github.com/LineageOS/android_kernel_xiaomi_sm6150/commit/9e8d4be7a3e2868491486ac86c9e5aa52a5a0c53.patch"
             apply_patches "${LN8K_COMMON[@]}"
             if [[ "$DEVICE_IMPORT" == "sweet-playground" ]]; then
+                echo "-- Applying LN8K extra patch with filterdiff..."
                 wget -qO- "$LN8K_EXTRA" | filterdiff -x a/drivers/power/supply/qcom/smb5-lib.c | patch -s -p1
             else
+                echo "-- Applying LN8K extra patch..."
                 wget -qO- "$LN8K_EXTRA" | patch -s -p1
             fi
             echo "CONFIG_CHARGER_LN8000=y" >> $MAIN_DEFCONFIG
