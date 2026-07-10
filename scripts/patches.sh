@@ -71,6 +71,12 @@ case "$DEVICE_IMPORT" in
                 apply_patches "$KPATCH_PATCH"
             fi
         fi
+        # Set drivers as built-in for 4.14
+        if [[ "$DEVICE_IMPORT" == "ginkgo" ]]; then
+            echo "-- Setting up drivers as built-in..."
+            sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/perf/Kconfig
+            sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/shs/Kconfig
+        fi
         # Common configs for 4.14
         echo "-- Tuning default configs..."
         if [[ "$DEVICE_IMPORT" != "sweet-playground" ]]; then
@@ -88,18 +94,24 @@ case "$DEVICE_IMPORT" in
             echo "-- Reverting KSU commit..."
             revert_commit "https://github.com/Mi-Thorium/kernel_msm-4.19/commit/624875e8edc36ae280b1f8efc1d3c48a28da64ea.patch"
         fi
-        if [[ "$DEVICE_IMPORT" == "gta4l" ]]; then
-            echo "-- Fixing scripts/dtc/livetree.c..."
-            sed -i '/assert(generate_fixups);/d' scripts/dtc/livetree.c
+        # Set drivers as built-in for 4.19
+        if [[ "$DEVICE_IMPORT" == "gta4l" || "$DEVICE_IMPORT" == "umi" || "$DEVICE_IMPORT" == "cmi" ]]; then
             echo "-- Setting up drivers as built-in..."
-            sed -i 's/^CONFIG_QCA_CLD_WLAN=m$/CONFIG_QCA_CLD_WLAN=y/' arch/arm64/configs/$DEVICE_DEFCONFIG
             sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/perf/Kconfig
             sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/shs/Kconfig
-            find techpack/data -name "Makefile" -exec sed -i 's/obj-m/obj-y/g' {} +
-            find techpack/audio/config -name "*.conf" -exec sed -i 's/=m/=y/g' {} +
-            find techpack/audio -name "Makefile*" -exec sed -i 's/obj-m/obj-y/g' {} +
-            find techpack/audio -name "Kbuild*" -exec sed -i 's/obj-m/obj-y/g' {} +
-            echo "CONFIG_SENSORS_SSC=y" >> $MAIN_DEFCONFIG
+            if [[ "$DEVICE_IMPORT" == "gta4l" ]]; then
+                echo "-- Fixing scripts/dtc/livetree.c..."
+                sed -i '/assert(generate_fixups);/d' scripts/dtc/livetree.c
+                if [[ "$DEVICE_IMPORT" == "gta4l" ]]; then
+                    echo "-- Setting up extra drivers as built-in for gta4l..."
+                    sed -i 's/^CONFIG_QCA_CLD_WLAN=m$/CONFIG_QCA_CLD_WLAN=y/' arch/arm64/configs/$DEVICE_DEFCONFIG
+                    find techpack/data -name "Makefile" -exec sed -i 's/obj-m/obj-y/g' {} +
+                    find techpack/audio/config -name "*.conf" -exec sed -i 's/=m/=y/g' {} +
+                    find techpack/audio -name "Makefile*" -exec sed -i 's/obj-m/obj-y/g' {} +
+                    find techpack/audio -name "Kbuild*" -exec sed -i 's/obj-m/obj-y/g' {} +
+                    echo "CONFIG_SENSORS_SSC=y" >> $MAIN_DEFCONFIG
+                fi
+            fi
         fi
         # Common configs for 4.19
         echo "-- Tuning default configs..."
