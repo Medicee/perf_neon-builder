@@ -95,7 +95,7 @@ case "$DEVICE_IMPORT" in
             revert_commit "https://github.com/Mi-Thorium/kernel_msm-4.19/commit/624875e8edc36ae280b1f8efc1d3c48a28da64ea.patch"
         fi
         # Set drivers as built-in for 4.19
-        if [[ "$DEVICE_IMPORT" == "gta4l" || "$DEVICE_IMPORT" == "umi" || "$DEVICE_IMPORT" == "cmi" ]]; then
+        if [[ "$DEVICE_IMPORT" == "gta4l" || "$DEVICE_IMPORT" == "umi" || "$DEVICE_IMPORT" == "cmi" || "$DEVICE_IMPORT" == "mi89x7-playground" ]]; then
             echo "-- Setting up drivers as built-in..."
             sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/perf/Kconfig
             sed -i 's/default m/default y/g' techpack/data/drivers/rmnet/shs/Kconfig
