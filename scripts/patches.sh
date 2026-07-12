@@ -86,6 +86,8 @@ case "$DEVICE_IMPORT" in
         echo "CONFIG_EROFS_FS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SECURITY_SELINUX_DEVELOP=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_KALLSYMS_ALL=y" >> $MAIN_DEFCONFIG
+        echo "CONFIG_BUILD_ARM64_DT_OVERLAY=y" >> $MAIN_DEFCONFIG
+        echo "CONFIG_BUILD_ARM64_APPENDED_DTB_IMAGE=y" >> $MAIN_DEFCONFIG
         ;;
     umi|cmi|mi89x7-playground|gta4l)
         # Device specific for 4.19
@@ -120,6 +122,8 @@ case "$DEVICE_IMPORT" in
         echo "CONFIG_THINLTO=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SHADOW_CALL_STACK=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_KALLSYMS_ALL=y" >> $MAIN_DEFCONFIG
+        echo "CONFIG_BUILD_ARM64_DT_OVERLAY=y" >> $MAIN_DEFCONFIG
+        echo "CONFIG_BUILD_ARM64_APPENDED_DTB_IMAGE=y" >> $MAIN_DEFCONFIG
         ;;
     a9y18qlte)
         echo "-- Reverting KSU commit for a9y18qlte..."
