@@ -14,7 +14,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet-playground]
+        build-type: [sweet, ginkgo, umi, sweet-playground, a52s, d2s, miatoll]
         ksu-type: [zako-susfs]
         bbg-type: [bbg]
         nomount-type: [nomount]
@@ -247,7 +247,7 @@ jobs:
           fi
           git clone https://github.com/riarumoda/AnyKernel3 AnyKernel3 --depth=1
           if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
-            cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_xiaomi_sm6150/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
             if [[ "${{ matrix.build-type }}" == "sweet" ]]; then
               sed -i 's/device.name1=sweet/device.name1=sweet/' AnyKernel3/anykernel.sh
@@ -267,7 +267,7 @@ jobs:
               sed -i 's/sweet (sm6150)/violet (sm6150)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
-            cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_xiaomi_sm6125/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
             if [[ "${{ matrix.build-type }}" == "ginkgo" ]]; then
               sed -i 's/device.name1=sweet/device.name1=ginkgo/' AnyKernel3/anykernel.sh
@@ -279,7 +279,8 @@ jobs:
               sed -i 's/sweet (sm6150)/laurel_sprout (sm6125)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
-            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image AnyKernel3/
+            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
+            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
             if [[ "${{ matrix.build-type }}" == "umi" ]]; then
               sed -i 's/device.name1=sweet/device.name1=umi/' AnyKernel3/anykernel.sh
@@ -344,7 +345,7 @@ jobs:
               sed -i 's/sweet (sm6150)/a9y18qlte (sdm660)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "a52q" || "${{ matrix.build-type }}" == "a72q" ]]; then
-            cp android_kernel_samsung_sm7125/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_samsung_sm7125/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=15-16/' AnyKernel3/anykernel.sh
             if [[ "${{ matrix.build-type }}" == "a52q" ]]; then
               sed -i 's/device.name1=sweet/device.name1=a52q/' AnyKernel3/anykernel.sh
@@ -364,7 +365,7 @@ jobs:
               sed -i 's/sweet (sm6150)/gta4l (sm6115)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "d2s" || "${{ matrix.build-type }}" == "d2x" ]]; then
-            cp android_kernel_samsung_exynos9820/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_samsung_exynos9820/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=15-16/' AnyKernel3/anykernel.sh
             if [[ "${{ matrix.build-type }}" == "d2s" ]]; then
               sed -i 's/device.name1=sweet/device.name1=d2s/' AnyKernel3/anykernel.sh
@@ -376,7 +377,7 @@ jobs:
               sed -i 's/sweet (sm6150)/d2x (exynos9820)/g' AnyKernel3/banner
             fi
           elif [[ "${{ matrix.build-type }}" == "miatoll" ]]; then
-            cp android_kernel_xiaomi_sm6250/out/arch/arm64/boot/Image.gz AnyKernel3/
+            cp android_kernel_xiaomi_sm6250/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=14-15/' AnyKernel3/anykernel.sh
             sed -i 's/device.name1=sweet/device.name1=miatoll/' AnyKernel3/anykernel.sh
             sed -i 's/device.name2=sweetin/device.name2=gram/' AnyKernel3/anykernel.sh
