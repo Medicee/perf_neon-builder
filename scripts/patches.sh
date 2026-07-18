@@ -86,12 +86,6 @@ case "$DEVICE_IMPORT" in
         echo "CONFIG_EROFS_FS=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_SECURITY_SELINUX_DEVELOP=y" >> $MAIN_DEFCONFIG
         echo "CONFIG_KALLSYMS_ALL=y" >> $MAIN_DEFCONFIG
-        if [[ "$DEVICE_IMPORT" == "sweet" || "$DEVICE_IMPORT" == "davinci" || "$DEVICE_IMPORT" == "tucana" || "$DEVICE_IMPORT" == "violet" || "$DEVICE_IMPORT" == "ginkgo" || "$DEVICE_IMPORT" == "laurel_sprout" ]]; then
-            echo "CONFIG_F2FS_FS_COMPRESSION=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_F2FS_FS_LZ4=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_F2FS_FS_LZO=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_F2FS_FS_ZSTD=y" >> $MAIN_DEFCONFIG
-        fi
         ;;
     umi|cmi|mi89x7-playground|gta4l)
         # Device specific for 4.19
