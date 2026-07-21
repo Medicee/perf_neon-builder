@@ -3,16 +3,16 @@ echo "- Setting up build environment..."
 
 # Device Default Exports
 echo "-- Exporting device settings..."
-export KBUILD_BUILD_USER=riarumoda-compile
-export KBUILD_BUILD_HOST=riaru.com
-export KERNEL_NAME="-perf-neon"
+export KBUILD_BUILD_USER=hsd-compile
+export KBUILD_BUILD_HOST=skernel.com
+export KERNEL_NAME="-S-kernel"
 export KERNEL_VERSION="4.19"
-export MAIN_DEFCONFIG="arch/arm64/configs/vendor/kona-perf_defconfig"
-export ACTUAL_MAIN_DEFCONFIG="vendor/kona-perf_defconfig"
+export MAIN_DEFCONFIG="arch/arm64/configs/vendor/umi_defconfig"
+export ACTUAL_MAIN_DEFCONFIG="vendor/umi_defconfig"
 export COMMON_DEFCONFIG="vendor/debugfs.config"
 export DEVICE_DEFCONFIG="vendor/xiaomi/sm8250-common.config vendor/xiaomi/${DEVICE_IMPORT}.config"
 export FEATURE_DEFCONFIG=""
-export KBUILD_BUILD_USER=kamilek-compilek
+export KBUILD_BUILD_USER=skernel-doped
 
 # GCC and Clang settings
 echo "-- Exporting toolchain settings..."
