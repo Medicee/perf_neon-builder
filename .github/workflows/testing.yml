@@ -19,7 +19,7 @@ jobs:
         bbg-type: [none]
         nomount-type: [none]
         droidspaces-type: [droidspaces]
-        rekernel-type: [rekernel]
+        rekernel-type: [none]
 
     steps:
       - uses: actions/checkout@v6
