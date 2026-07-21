@@ -53,8 +53,6 @@ jobs:
 
       - name: Compile the kernel
         run: |
-          
-          elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
             cd android_kernel_xiaomi_sm8250/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
