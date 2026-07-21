@@ -41,6 +41,11 @@ echo " "
 # Compile the kernel
 make -j$(nproc --all) O=out "${MAKE_ARGS[@]}"
 
+# Restore DTS backup for MIUI
+        echo "[*] Restoring DTS backups..."
+        rm -rf "${DTS_SOURCE}"
+        mv "${DTS_BACKUP}" "${DTS_SOURCE}"
+        echo "Finishing addind dts backup..."
 # Warning finish banner
 echo " "
 echo "======================================"
