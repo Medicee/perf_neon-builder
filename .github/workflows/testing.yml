@@ -66,7 +66,7 @@ jobs:
           git clone https://github.com/riarumoda/AnyKernel3 AnyKernel3 --depth=1
            echo "Pushung sources anykernel..."
            
-            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image-dtb AnyKernel3/
+            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image AnyKernel3/
             sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
             echo "seeding specific files..."
               sed -i 's/device.name1=sweet/device.name1=umi/' AnyKernel3/anykernel.sh
