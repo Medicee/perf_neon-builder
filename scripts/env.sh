@@ -37,9 +37,9 @@ if [ ! -d "$CLANG_ROOT/bin" ]; then
     rm -rf "$CLANG_ROOT"
     mkdir -p "$CLANG_ROOT"
     cd "$CLANG_ROOT"
-    wget -q https://github.com/Neutron-Toolchains/clang-build-catalogue/releases/download/05012024/neutron-clang-05012024.tar.zst || { echo "-- Fatal: Failed to download Neutron Clang!"; exit 1; }
-    tar --use-compress-program=unzstd -xf neutron-clang-05012024.tar.zst || { echo "-- Fatal: Failed to extract Neutron Clang!"; exit 1; }
-    rm neutron-clang-05012024.tar.zst
+    wget -q https://github.com/Neutron-Toolchains/clang-build-catalogue/releases/download/09092023/neutron-clang-09092023.tar.zst || { echo "-- Fatal: Failed to download Neutron Clang!"; exit 1; }
+    tar --use-compress-program=unzstd -xf neutron-clang-09092023.tar.zst || { echo "-- Fatal: Failed to extract Neutron Clang!"; exit 1; }
+    rm neutron-clang-09092023.tar.zst
     cd - > /dev/null
 else
     echo "-- Using local clang"
