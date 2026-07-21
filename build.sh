@@ -47,13 +47,3 @@ source scripts/goodies.sh
 # Build process
 chmod +x scripts/compile.sh
 source scripts/compile.sh
-
-# Finalize
-if [ -d "out/arch/arm64/boot" ]; then
-    echo "- Build process finished, listed below are the build artifacts:"
-    echo "==============================================="
-    ls -alhZ out/arch/arm64/boot/
-    echo "==============================================="
-else
-    echo "- Build process either failed during pre-compile or during compile."
-fi
