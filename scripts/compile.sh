@@ -41,6 +41,16 @@ echo " "
 # Compile the kernel
 make -j$(nproc --all) O=out "${MAKE_ARGS[@]}"
 
+if [ -f "out/arch/arm64/boot/Image" ]; then
+    echo "The file [out/arch/arm64/boot/Image] exists. MIUI Build successfully."
+else
+    echo "The file [out/arch/arm64/boot/Image] does not exist. Seems MIUI build failed."
+    exit 1
+fi
+
+echo "Generating [out/arch/arm64/boot/dtb]......"
+find out/arch/arm64/boot/dts -name '*.dtb' -exec cat {} + >out/arch/arm64/boot/dtb
+
 # Restore DTS backup for MIUI
         echo "[*] Restoring DTS backups..."
         rm -rf "${DTS_SOURCE}"
