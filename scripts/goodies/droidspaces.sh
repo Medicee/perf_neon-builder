@@ -6,47 +6,32 @@ export DROIDSPACES_CGROUP="https://github.com/ravindu644/Droidspaces-OSS/raw/ref
 export DROIDSPACES_SYSVIPC="https://github.com/ravindu644/Droidspaces-OSS/raw/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch"
 export DROIDSPACES_MQUEUE="https://github.com/ravindu644/Droidspaces-OSS/raw/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch"
 
-case "$DROIDSPACES_SELECTOR" in
-    droidspaces)
-        # Start of droidspaces integration
-        echo "-- Setting up Droidspaces..."
+# Start of droidspaces integration
+echo "-- Setting up Droidspaces..."
         
-        # Apply patches for 4.x kernels
-        if [[ "$KERNEL_VERSION" == "4.4" || "$KERNEL_VERSION" == "4.9" || "$KERNEL_VERSION" == "4.14" || "$KERNEL_VERSION" == "4.19" ]]; then
-            echo "-- Droidspaces: Kernel is 4.x, applying patches..."
-            # Check if kernel have xt_qtaguid
+# Apply patches for 4.x kernels
+
+echo "-- Droidspaces: Kernel is 4.x, applying patches..."
+# Check if kernel have xt_qtaguid
             if [[ ! -f "net/netfilter/xt_qtaguid.c" ]]; then
                 echo "-- Droidspaces: xt_qtaguid module not found in kernel source."
                 XT_QTAGUID_CHECK="false"
             else
                 XT_QTAGUID_CHECK="true"
             fi
-            # Apply xt_qtaguid patch if it exists
+# Apply xt_qtaguid patch if it exists
             if [[ "$XT_QTAGUID_CHECK" == "true" ]]; then
                 echo "-- Droidspaces: net/netfilter/xt_qtaguid.c exist, applying patch..."
                 wget -qO- $DROIDSPACES_XT_QTAGUID | patch -s -p1 --fuzz=5 || { echo "-- Fatal: Failed to apply Droidspaces xt_qtaguid patch!"; exit 1; }
             fi
-            # Check if kernel version is 4.14
-            if [[ "$KERNEL_VERSION" == "4.14" ]]; then
-                echo "-- Droidspaces: Kernel is 4.14, changing id..."
-                if grep -q "union kernfs_node_id" include/linux/kernfs.h; then
-                    echo "-- Droidspaces: Detected union kernfs_node_id, using .id.id..."
-                    sed -i 's/css->cgroup->id/css->cgroup->kn->id.id/g' include/net/netprio_cgroup.h
-                    sed -i 's/css->cgroup->id/css->cgroup->kn->id.id/g' net/core/netprio_cgroup.c
-                else
-                    echo "-- Droidspaces: Detected scalar kernfs_node id, using ->id..."
-                    sed -i 's/css->cgroup->id/css->cgroup->kn->id/g' include/net/netprio_cgroup.h
-                    sed -i 's/css->cgroup->id/css->cgroup->kn->id/g' net/core/netprio_cgroup.c
-                fi
-            fi
-            # Apply cgroup patch
+# Apply cgroup patch
             echo "-- Droidspaces: Applying cgroup patch..."
             wget -qO- $DROIDSPACES_CGROUP | patch -s -p1 --fuzz=5 || { echo "-- Fatal: Failed to apply Droidspaces cgroup patch!"; exit 1; }
-            # IPC mechanisms
+# IPC mechanisms
             echo "CONFIG_SYSCTL=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_SYSVIPC=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_POSIX_MQUEUE=y" >> $MAIN_DEFCONFIG
-            # Core namespace support
+# Core namespace support
             echo "CONFIG_NAMESPACES=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_PID_NS=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_UTS_NS=y" >> $MAIN_DEFCONFIG
@@ -125,46 +110,3 @@ case "$DROIDSPACES_SELECTOR" in
             echo "CONFIG_NETFILTER_NETLINK_QUEUE=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_NETFILTER_NETLINK_LOG=y" >> $MAIN_DEFCONFIG
             echo "CONFIG_NETFILTER_XT_TARGET_NFLOG=y" >> $MAIN_DEFCONFIG
-        # Apply patches for 5.x kernels
-        elif [[ "$KERNEL_VERSION" == "5.4" || "$KERNEL_VERSION" == "5.10" ]]; then
-            echo "-- Droidspaces: Kernel is 5.x, applying patches..."
-            # Apply sysvipc patch
-            echo "-- Droidspaces: Applying sysvipc patch..."
-            wget -qO- $DROIDSPACES_SYSVIPC | patch -s -p1 --fuzz=5 || { echo "-- Fatal: Failed to apply Droidspaces sysvipc patch!"; exit 1; }
-            # Apply mqueue patch if kernel is 5.4
-            if [[ "$KERNEL_VERSION" == "5.4" ]]; then
-                echo "-- Droidspaces: Kernel is 5.4, applying mqueue patch..."
-                wget -qO- $DROIDSPACES_MQUEUE | patch -s -p1 --fuzz=5 || { echo "-- Fatal: Failed to apply Droidspaces mqueue patch!"; exit 1; }
-            fi
-            # IPC
-            echo "CONFIG_SYSVIPC=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_POSIX_MQUEUE=y" >> $MAIN_DEFCONFIG
-            # Namespaces
-            echo "CONFIG_IPC_NS=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_PID_NS=y" >> $MAIN_DEFCONFIG
-            # HW Access Support
-            echo "CONFIG_DEVTMPFS=y" >> $MAIN_DEFCONFIG
-            # Networking (Enhanced NAT support)
-            echo "CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y" >> $MAIN_DEFCONFIG
-            # UFW support
-            echo "CONFIG_NETFILTER_XT_TARGET_REJECT=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_NETFILTER_XT_TARGET_LOG=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_NETFILTER_XT_MATCH_RECENT=y" >> $MAIN_DEFCONFIG
-            # Fail2ban support
-            echo "CONFIG_IP_SET=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_IP_SET_HASH_IP=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_IP_SET_HASH_NET=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_NETFILTER_XT_SET=y" >> $MAIN_DEFCONFIG
-            # Enable xattr, posix acl support on tmpfs
-            echo "CONFIG_TMPFS_POSIX_ACL=y" >> $MAIN_DEFCONFIG
-            echo "CONFIG_TMPFS_XATTR=y" >> $MAIN_DEFCONFIG
-        fi
-        ;;
-    none|"")
-        echo "-- Droidspaces is not selected."
-        ;;
-    *)
-        echo "- Invalid DROIDSPACES_SELECTOR: $DROIDSPACES_SELECTOR. Valid options: droidspaces, none."
-        exit 1
-        ;;
-esac
