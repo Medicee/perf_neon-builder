@@ -9,8 +9,8 @@ export KERNEL_NAME="-S-kernel"
 export KERNEL_VERSION="4.19"
 export MAIN_DEFCONFIG="arch/arm64/configs/vendor/umi_defconfig"
 export ACTUAL_MAIN_DEFCONFIG="vendor/umi_defconfig"
-export COMMON_DEFCONFIG="vendor/debugfs.config"
-export DEVICE_DEFCONFIG="vendor/xiaomi/sm8250-common.config vendor/xiaomi/${DEVICE_IMPORT}.config"
+export COMMON_DEFCONFIG=""
+export DEVICE_DEFCONFIG=""
 export FEATURE_DEFCONFIG=""
 export KBUILD_BUILD_USER=skernel-doped
 
