@@ -14,7 +14,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet, ginkgo, umi]
+        build-type: [umi]
         ksu-type: [zako-susfs]
         bbg-type: [bbg]
         nomount-type: [nomount]
@@ -42,19 +42,14 @@ jobs:
 
       - name: Preparing kernel sources
         run: |
-          
-          elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm8250" ]; then
-              rm -rf android_kernel_xiaomi_sm8250
-            fi
+           rm -rf android_kernel_xiaomi_sm8250
             echo "Cloning kernel sources..."
             git clone https://github.com/LineageOS/android_kernel_xiaomi_sm8250.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm8250
             echo "Copying buildscript..."
             cp build.sh android_kernel_xiaomi_sm8250/
             cp -r scripts android_kernel_xiaomi_sm8250/
             chmod +x ./android_kernel_xiaomi_sm8250/build.sh
-
-          echo "Kernel sources prepared & initialised..."
+           echo "Kernel sources prepared & initialised..."
 
       - name: Compile the kernel
         run: |
