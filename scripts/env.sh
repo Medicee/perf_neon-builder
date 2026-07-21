@@ -27,12 +27,25 @@ export MAKE_ARGS=(
         CLANG_TRIPLE=aarch64-linux-gnu-
 )
 TC_URLS=(
-    "clang|https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git"
     "gcc64|https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git"
     "gcc32|https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git"
 )
 
-# Clang and GCC Setup
+# Clang Setup (Neutron Clang 18.0git, tar.zst)
+if [ ! -d "$CLANG_ROOT/bin" ]; then
+    echo "-- Downloading Neutron Clang..."
+    rm -rf "$CLANG_ROOT"
+    mkdir -p "$CLANG_ROOT"
+    cd "$CLANG_ROOT"
+    wget -q https://github.com/Neutron-Toolchains/clang-build-catalogue/releases/download/05012024/neutron-clang-05012024.tar.zst || { echo "-- Fatal: Failed to download Neutron Clang!"; exit 1; }
+    tar --use-compress-program=unzstd -xf neutron-clang-05012024.tar.zst || { echo "-- Fatal: Failed to extract Neutron Clang!"; exit 1; }
+    rm neutron-clang-05012024.tar.zst
+    cd - > /dev/null
+else
+    echo "-- Using local clang"
+fi
+
+# GCC Setup
 for tc in "${TC_URLS[@]}"; do
     dir="${tc%%|*}"; url="${tc##*|}"
     if [[ "$url" == *.git ]]; then
