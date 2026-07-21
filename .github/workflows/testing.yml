@@ -15,9 +15,9 @@ jobs:
     strategy:
       matrix:
         build-type: [umi]
-        ksu-type: [zako-susfs]
-        bbg-type: [bbg]
-        nomount-type: [nomount]
+        ksu-type: [none]
+        bbg-type: [none]
+        nomount-type: [none]
         droidspaces-type: [droidspaces]
         rekernel-type: [rekernel]
 
