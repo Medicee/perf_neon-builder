@@ -44,7 +44,7 @@ jobs:
         run: |
            rm -rf android_kernel_xiaomi_sm8250
             echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_xiaomi_sm8250.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm8250
+            git clone https://github.com/Medicee/kernel_xiaomi_sm8250_n0kernel.git -b "staging-umi" --depth=1 android_kernel_xiaomi_sm8250
             echo "Copying buildscript..."
             cp build.sh android_kernel_xiaomi_sm8250/
             cp -r scripts android_kernel_xiaomi_sm8250/
