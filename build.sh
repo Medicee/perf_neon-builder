@@ -49,12 +49,14 @@ chmod +x scripts/compile.sh
 source scripts/compile.sh
 
 # Finalize
-if [ -d "out/arch/arm64/boot" ]; then
+if [ -f "out/arch/arm64/boot/Image" ]; then
     echo "- Build process finished, listed below are the build artifacts:"
     echo "==============================================="
     echo "- Preparing AnyKernel MIUI package..."
+    echo "- Generating dtb..."
+find out/arch/arm64/boot/dts -name "*.dtb" -exec cat {} + > out/arch/arm64/boot/dtb
 
-     rm -rf anykernel/kernels
+     rm -rf anykernel/kernels/*
      mkdir -p anykernel/kernels/miui
 
     cp out/arch/arm64/boot/Image anykernel/kernels/miui/
@@ -65,6 +67,12 @@ if [ -d "out/arch/arm64/boot" ]; then
     [ -f out/arch/arm64/boot/dtbo.img ] && \
     cp out/arch/arm64/boot/dtbo.img anykernel/kernels/miui/
     ls -alhZ out/arch/arm64/boot/
+    echo "==============================================="
+    echo "[+] AnyKernel files prepared successfully."
+    echo "[+] Image    : anykernel/kernels/miui/Image"
+    [ -f anykernel/kernels/miui/dtb ] && echo "[+] DTB      : anykernel/kernels/miui/dtb"
+    [ -f anykernel/kernels/miui/dtbo.img ] && echo "[+] DTBO     : anykernel/kernels/miui/dtbo.img"
+    echo "==============================================="
     echo "==============================================="
 else
     echo "- Build process either failed during pre-compile or during compile."
