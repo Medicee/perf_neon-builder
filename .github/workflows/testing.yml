@@ -48,7 +48,11 @@ jobs:
             echo "Copying buildscript..."
             cp build.sh android_kernel_xiaomi_sm8250/
             cp -r scripts android_kernel_xiaomi_sm8250/
-            chmod +x ./android_kernel_xiaomi_sm8250/build.sh   
+            chmod +x ./android_kernel_xiaomi_sm8250/build.sh
+
+      - name: Clone AnyKernel
+        run: |
+         git clone --depth=1 https://github.com/Medicee/AnyKernel3.git android_kernel_xiaomi_sm8250/anykernel     
 
       - name: Compile the kernel
         run: |
