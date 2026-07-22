@@ -52,6 +52,18 @@ source scripts/compile.sh
 if [ -d "out/arch/arm64/boot" ]; then
     echo "- Build process finished, listed below are the build artifacts:"
     echo "==============================================="
+    echo "- Preparing AnyKernel MIUI package..."
+
+     rm -rf anykernel/kernels
+     mkdir -p anykernel/kernels/miui
+
+    cp out/arch/arm64/boot/Image anykernel/kernels/miui/
+
+    [ -f out/arch/arm64/boot/dtb ] && \
+    cp out/arch/arm64/boot/dtb anykernel/kernels/miui/
+
+    [ -f out/arch/arm64/boot/dtbo.img ] && \
+    cp out/arch/arm64/boot/dtbo.img anykernel/kernels/miui/
     ls -alhZ out/arch/arm64/boot/
     echo "==============================================="
 else
