@@ -57,18 +57,15 @@ jobs:
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
 
-      - name: Preparing AnyKernel3 sources
+      - name: Create AnyKernel ZIP
         run: |
-          rm -rf AnyKernel3
-          git clone https://github.com/AstideLabs/AnyKernel3 AnyKernel3 --depth=1
-          echo "cloning Anykernel...."
-            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image-dtb AnyKernel3/
-            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/dtb AnyKernel3/
-            cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/dtbo.img AnyKernel3/
+          cd android_kernel_xiaomi_sm8250/anykernel
+          ZIP_NAME="APTKernel-${{ matrix.build-type }}-${{ steps.ts.outputs.DATE }}-${{ steps.ts.outputs.TIME }}.zip"
+          zip -r9 "$ZIP_NAME" . -x ".git/*" ".gitignore" "*.zip"
 
       - name: Pack & upload artifacts (All builds)
         uses: actions/upload-artifact@v6
         with:
           name: perf-neon-${{ matrix.build-type }}-${{ matrix.ksu-type }}-${{ matrix.bbg-type }}-${{ matrix.nomount-type }}-${{ matrix.droidspaces-type }}-${{ matrix.rekernel-type }}-testing-${{ steps.ts.outputs.DATE }}-${{ steps.ts.outputs.TIME }}
           path: |
-            AnyKernel3/*
+             android_kernel_xiaomi_sm8250/anykernel/*.zip
