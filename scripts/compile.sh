@@ -84,6 +84,7 @@ make -j$(nproc --all) O=out "${MAKE_ARGS[@]}"
 echo "-- Restoring original DTS..."
 
 if [ -d ".dts.bak" ]; then
+echo "Original dts started..........."
     rm -rf "${dts_source}"
     mv .dts.bak "${dts_source}"
 fi
