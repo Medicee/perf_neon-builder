@@ -42,224 +42,29 @@ jobs:
 
       - name: Preparing kernel sources
         run: |
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" || "${{ matrix.build-type }}" == "sweet-clang" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
-              rm -rf android_kernel_xiaomi_sm6150
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_xiaomi_sm6150.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm6150
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6150/
-            cp -r scripts android_kernel_xiaomi_sm6150/
-            chmod +x ./android_kernel_xiaomi_sm6150/build.sh
-          elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6125" ]; then
-              rm -rf android_kernel_xiaomi_sm6125
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_xiaomi_sm6125.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm6125
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6125/
-            cp -r scripts android_kernel_xiaomi_sm6125/
-            chmod +x ./android_kernel_xiaomi_sm6125/build.sh
-          elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm8250" ]; then
-              rm -rf android_kernel_xiaomi_sm8250
-            fi
+            rm -rf android_kernel_xiaomi_sm8250
             echo "Cloning kernel sources..."
             git clone https://github.com/LineageOS/android_kernel_xiaomi_sm8250.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm8250
             echo "Copying buildscript..."
             cp build.sh android_kernel_xiaomi_sm8250/
             cp -r scripts android_kernel_xiaomi_sm8250/
-            chmod +x ./android_kernel_xiaomi_sm8250/build.sh
-          elif [[ "${{ matrix.build-type }}" == "mi89x7" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_msm8937" ]; then
-              rm -rf android_kernel_xiaomi_msm8937
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_xiaomi_msm8937.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_msm8937
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_msm8937/
-            cp -r scripts android_kernel_xiaomi_msm8937/
-            chmod +x ./android_kernel_xiaomi_msm8937/build.sh
-          elif [[ "${{ matrix.build-type }}" == "mi89x7-community" || "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_msm8937" ]; then
-              rm -rf android_kernel_xiaomi_msm8937
-            fi
-            echo "Cloning kernel sources..."
-            # Main source
-            git clone https://github.com/Mi-Thorium/kernel_msm-4.19 --depth=1 -b "mithorium/a13/master" android_kernel_xiaomi_msm8937
-            # Dts vendor-legacy
-            git clone https://github.com/Mi-Thorium/kernel_devicetree_msm-4.19 --depth=1 -b "dts/master" android_kernel_xiaomi_msm8937/arch/arm64/boot/dts/vendor-legacy
-            # Dts msm8937
-            git clone https://github.com/Mi-Thorium/kernel_devicetree_xiaomi-msm8937 --depth=1 -b "dts/mi8937/4.19/master" android_kernel_xiaomi_msm8937/arch/arm64/boot/dts/xiaomi-msm8937
-            # Dts sdm439
-            git clone https://github.com/Mi-Thorium/kernel_devicetree_xiaomi-sdm439 --depth=1 -b "dts/mi439/4.19/master" android_kernel_xiaomi_msm8937/arch/arm64/boot/dts/xiaomi-sdm439
-            # Techpack msm8937
-            git clone https://github.com/Mi-Thorium/kernel_techpack_xiaomi-msm8937 --depth=1 -b "techpack/mi8937/4.19/master" android_kernel_xiaomi_msm8937/techpack/xiaomi-msm8937
-            # Techpack sdm439
-            git clone https://github.com/Mi-Thorium/kernel_techpack_xiaomi-sdm439 --depth=1 -b "techpack/mi439/4.19/master" android_kernel_xiaomi_msm8937/techpack/xiaomi-sdm439
-            # Techpack audio-legacy
-            git clone https://github.com/Mi-Thorium/kernel_techpack_audio-legacy --depth=1 -b "audio/4.19/mithorium/master" android_kernel_xiaomi_msm8937/techpack/audio-legacy
-            # Techpack camera-legacy
-            git clone https://github.com/Mi-Thorium/kernel_techpack_camera-legacy --depth=1 -b "camera/LA.UM.8.6.r1-05300-89xx.0/4.19/mithorium" android_kernel_xiaomi_msm8937/techpack/camera-legacy
-            # Techpack camera-legacy-m
-            git clone https://github.com/Mi-Thorium/kernel_techpack_camera-legacy --depth=1 -b "camera/LA.UM.5.3-10610-89xx.0/4.19/mithorium" android_kernel_xiaomi_msm8937/techpack/camera-legacy-m
-            # Prima WIFI
-            git clone https://github.com/Mi-Thorium/vendor_qcom_opensource_wlan_prima --depth=1 -b "wlan/LA.UM.9.6.4/mithorium/master" android_kernel_xiaomi_msm8937/drivers/staging/prima
-            # Final
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_msm8937/
-            cp -r scripts android_kernel_xiaomi_msm8937/
-            chmod +x ./android_kernel_xiaomi_msm8937/build.sh
-          elif [[ "${{ matrix.build-type }}" == "sweet-playground" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
-              rm -rf android_kernel_xiaomi_sm6150
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/PixelOS-Devices/android_kernel_xiaomi_sm6150.git -b "sixteen-qpr2" --depth=1 android_kernel_xiaomi_sm6150
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6150/
-            cp -r scripts android_kernel_xiaomi_sm6150/
-            chmod +x ./android_kernel_xiaomi_sm6150/build.sh
-          elif [[ "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6150" ]; then
-              rm -rf android_kernel_xiaomi_sm6150
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/riarumoda/android_kernel_xiaomi_sm6150.git -b "lineage-23.2" --depth=1 android_kernel_xiaomi_sm6150
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6150/
-            cp -r scripts android_kernel_xiaomi_sm6150/
-            chmod +x ./android_kernel_xiaomi_sm6150/build.sh
-          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
-            if [ -d "$PWD/android_kernel_samsung_a9y18qlte" ]; then
-              rm -rf android_kernel_samsung_a9y18qlte
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/riarumoda/kernel_samsung_a9y18qlte.git -b "master" --depth=1 android_kernel_samsung_a9y18qlte
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_samsung_a9y18qlte/
-            cp -r scripts android_kernel_samsung_a9y18qlte/
-            chmod +x ./android_kernel_samsung_a9y18qlte/build.sh
-          elif [[ "${{ matrix.build-type }}" == "a52q" || "${{ matrix.build-type }}" == "a72q" ]]; then
-            if [ -d "$PWD/android_kernel_samsung_sm7125" ]; then
-              rm -rf android_kernel_samsung_sm7125
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_samsung_sm7125.git -b "lineage-23.2" --depth=1 android_kernel_samsung_sm7125
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_samsung_sm7125/
-            cp -r scripts android_kernel_samsung_sm7125/
-            chmod +x ./android_kernel_samsung_sm7125/build.sh
-          elif [[ "${{ matrix.build-type }}" == "gta4l" ]]; then
-            if [ -d "$PWD/android_kernel_samsung_sm6115" ]; then
-              rm -rf android_kernel_samsung_sm6115
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_samsung_sm6115.git -b "lineage-23.2" --depth=1 android_kernel_samsung_sm6115
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_samsung_sm6115/
-            cp -r scripts android_kernel_samsung_sm6115/
-            chmod +x ./android_kernel_samsung_sm6115/build.sh
-          elif [[ "${{ matrix.build-type }}" == "d2s" || "${{ matrix.build-type }}" == "d2x" ]]; then
-            if [ -d "$PWD/android_kernel_samsung_exynos9820" ]; then
-              rm -rf android_kernel_samsung_exynos9820
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_samsung_exynos9820.git -b "lineage-23.2" --depth=1 android_kernel_samsung_exynos9820
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_samsung_exynos9820/
-            cp -r scripts android_kernel_samsung_exynos9820/
-            chmod +x ./android_kernel_samsung_exynos9820/build.sh
-          elif [[ "${{ matrix.build-type }}" == "miatoll" ]]; then
-            if [ -d "$PWD/android_kernel_xiaomi_sm6250" ]; then
-              rm -rf android_kernel_xiaomi_sm6250
-            fi
-            echo "Cloning kernel sources..."
-            git clone https://github.com/LineageOS/android_kernel_xiaomi_sm6250.git -b "lineage-22.2" --depth=1 android_kernel_xiaomi_sm6250
-            echo "Copying buildscript..."
-            cp build.sh android_kernel_xiaomi_sm6250/
-            cp -r scripts android_kernel_xiaomi_sm6250/
-            chmod +x ./android_kernel_xiaomi_sm6250/build.sh
-          else
-            echo "Invalid build type: ${{ matrix.build-type }}"
-            exit 1
-          fi
-          
+            chmod +x ./android_kernel_xiaomi_sm8250/build.sh   
 
       - name: Compile the kernel
         run: |
           echo "Starting to compile..."
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
-            cd android_kernel_xiaomi_sm6150/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "ginkgo" || "${{ matrix.build-type }}" == "laurel_sprout" ]]; then
-            cd android_kernel_xiaomi_sm6125/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
             cd android_kernel_xiaomi_sm8250/
             ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
             cd ..
-          elif [[ "${{ matrix.build-type }}" == "mi89x7" ]]; then
-            cd android_kernel_xiaomi_msm8937/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "mi89x7-community" || "${{ matrix.build-type }}" == "mi89x7-playground" ]]; then
-            cd android_kernel_xiaomi_msm8937/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "sweet-playground" || "${{ matrix.build-type }}" == "sweet-miui" ]]; then
-            cd android_kernel_xiaomi_sm6150/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "a9y18qlte" ]]; then
-            cd android_kernel_samsung_a9y18qlte/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "a52q" || "${{ matrix.build-type }}" == "a72q" ]]; then
-            cd android_kernel_samsung_sm7125/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "gta4l" ]]; then
-            cd android_kernel_samsung_sm6115/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "d2s" || "${{ matrix.build-type }}" == "d2x" ]]; then
-            cd android_kernel_samsung_exynos9820/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          elif [[ "${{ matrix.build-type }}" == "miatoll" ]]; then
-            cd android_kernel_xiaomi_sm6250/
-            ./build.sh ${{ matrix.build-type }} ${{ matrix.ksu-type }} ${{ matrix.bbg-type }} ${{ matrix.nomount-type }} ${{ matrix.droidspaces-type }} ${{ matrix.rekernel-type }}
-            cd ..
-          else
-            echo "Invalid build type: ${{ matrix.build-type }}"
-            exit 1
-          fi
 
       - name: Preparing AnyKernel3 sources
         run: |
-          if [ -d "$PWD/AnyKernel3" ]; then
-            rm -rf AnyKernel3
-          fi
+          rm -rf AnyKernel3
           git clone https://github.com/AstideLabs/AnyKernel3 AnyKernel3 --depth=1
-          if [[ "${{ matrix.build-type }}" == "sweet" || "${{ matrix.build-type }}" == "davinci" || "${{ matrix.build-type }}" == "tucana" || "${{ matrix.build-type }}" == "violet" ]]; then
-          
-          elif [[ "${{ matrix.build-type }}" == "umi" || "${{ matrix.build-type }}" == "cmi" || "${{ matrix.build-type }}" == "munch" ]]; then
+          echo "cloning Anykernel...."
             cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/Image-dtb AnyKernel3/
             cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/dtb AnyKernel3/
             cp android_kernel_xiaomi_sm8250/out/arch/arm64/boot/dtbo.img AnyKernel3/
-            sed -i 's/supported.versions=11-16/supported.versions=11-16/' AnyKernel3/anykernel.sh
-            if [[ "${{ matrix.build-type }}" == "umi" ]]; then
-              sed -i 's/device.name1=sweet/device.name1=umi/' AnyKernel3/anykernel.sh
-              sed -i 's/device.name2=sweetin/device.name2=umiin/' AnyKernel3/anykernel.sh
-              sed -i 's/sweet (sm6150)/umi (sm8250)/g' AnyKernel3/banner
-            
-          fi
-          sed -i '$a \\nBuild timestamp: ${{ steps.ts.outputs.TIME }}' AnyKernel3/banner
 
       - name: Pack & upload artifacts (All builds)
         uses: actions/upload-artifact@v6
