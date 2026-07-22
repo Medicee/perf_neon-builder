@@ -1,4 +1,4 @@
-name: Testing
+name: Doped
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
       date: ${{ steps.ts.outputs.DATE }}
     strategy:
       matrix:
-        build-type: [sweet, ginkgo, umi]
+        build-type: [umi]
         ksu-type: [zako-susfs]
         bbg-type: [bbg]
         nomount-type: [nomount]
