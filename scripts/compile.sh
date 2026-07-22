@@ -37,6 +37,15 @@ echo "-- Executing olddefconfig and syncconfig..."
 { yes "" 2>/dev/null || true; } | "${MAKE_CMD[@]}" olddefconfig &> /dev/null
 { yes "" 2>/dev/null || true; } | "${MAKE_CMD[@]}" syncconfig &> /dev/null
 
+echo "-- Building for HyperOS / MIUI..."
+
+dts_source="arch/arm64/boot/dts/vendor/qcom"
+
+cp -a "${dts_source}" .dts.bak
+
+# Your complete sed patch block goes here
+# (exactly the one you posted)
+
 # Warning start banner
 echo "-- Starting to compile..."
 echo " "
@@ -47,6 +56,13 @@ echo " "
 
 # Compile the kernel
 make -j$(nproc --all) O=out "${MAKE_ARGS[@]}"
+
+echo "-- Restoring original DTS..."
+
+if [ -d ".dts.bak" ]; then
+    rm -rf "${dts_source}"
+    mv .dts.bak "${dts_source}"
+fi
 
 # Warning finish banner
 echo " "
